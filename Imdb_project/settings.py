@@ -37,18 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-<<<<<<< HEAD
-    'corsheaders',
-    'imdb_app',
-=======
     'Imdb_app',
->>>>>>> affa5c69017f8bb5a1cd8de6a8aaab584cb08e3a
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware', 
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -126,9 +120,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-<<<<<<< HEAD
-CORS_ALLOW_ALL_ORIGINS = True
-=======
 
 AUTH_USER_MODEL = 'Imdb_app.ApplicationUser'
->>>>>>> affa5c69017f8bb5a1cd8de6a8aaab584cb08e3a
