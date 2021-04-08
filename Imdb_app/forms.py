@@ -1,3 +1,7 @@
+
+from django import forms
+from Imdb_app.models import ApplicationUser
+
 class SignupForm(forms.Form):
     display_name = models.CharField(max_length=50)
     # Was unsure of to whether to include the likes,want_to_see, and have_seen in the inital signup or rather after
