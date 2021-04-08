@@ -5,7 +5,7 @@ from Imdb_app.forms import SearchForm
 # Create your views here.
 def home_page_view(request):
     context = {}
-
+    reply = {}
     if request.method == 'POST':
         form = SearchForm(request.POST)
         if form.is_valid():
@@ -23,7 +23,8 @@ def home_page_view(request):
             response = requests.request("GET", url, headers=headers, params=querystring)
             
             reply = response.json()
+            imageUrl = reply['d'][0]['i']['imageUrl']
             print(response.json())
     form = SearchForm()
-    context.update({'form': form, 'reply': reply})
+    context.update({'form': form, 'reply': reply, 'imageUrl': imageUrl})
     return render(request, 'homepage.html', context)
