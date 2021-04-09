@@ -60,6 +60,7 @@ class SignupView(View):
             user = ApplicationUser.objects.create_user(
                 username=data.get("username"),
                 display_name=data.get("display_name"),
+                email=data.get("email"),
                 password=data.get("password")
             )
             login(request, user)
