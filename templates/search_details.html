@@ -1,4 +1,24 @@
-{% extends 'base_header.html %}
-{% block content %}
+<style>
+    .movidInfo {
+        display: flex;
+        flex-direction: column;
+        align-content: center;
+        border: 1px solid black;
+    }
 
+    .moviePoster {
+        width: 200px;
+    }
+</style>
+
+{% extends 'base_header.html'%}
+{% block content %}
+    <h1>HELLO TEAM GLASS!</h1>
+   {% for movie in movie_info %}
+    <div class='movieInfo'>
+        <h2 class='movieTitle'>{{movie.title}}</h2>
+        <img src={{movie.poster}} alt={{movie.title}} class="moviePoster"/>
+        <h3 class="movieYear">{{movie.year}}</h3>
+    </div>
+   {% endfor %}
 {% endblock%}

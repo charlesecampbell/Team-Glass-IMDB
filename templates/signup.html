@@ -9,6 +9,10 @@
 </head>
 
 <body>
+    {% extends 'base_header.html' %}
+
+    {% block content %}
+    
     {% if header %}
     <h1>{{header}}</h1>
     {% endif %}
@@ -18,6 +22,7 @@
         {{ form.as_p }}
         <input type="submit" value="Submit" />
     </form>
+    {% endblock %}
 </body>
 
 </html>
