@@ -14,7 +14,7 @@ class SignupForm(forms.Form):
 # This is the comment form **Model Form
 class Comment_Form(forms.ModelForm):
     class Meta:
-        Model = Comment_model
+        model = Comment_model
         fields = [
             'input_field',
             'movie',
@@ -26,3 +26,7 @@ class Comment_Form(forms.ModelForm):
 
 class SearchForm(forms.Form):
     search_selection = forms.CharField(max_length=180)
+
+class LoginForm(forms.Form):
+    username = forms.CharField(max_length=50)
+    password = forms.CharField(widget=forms.PasswordInput)
