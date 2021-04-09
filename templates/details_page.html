@@ -1,0 +1,14 @@
+{% extends 'base_header.html' %}
+
+{% block content %}
+
+<h1>Details Page</h1>
+{{movie}}
+<!-- {{movie.description}} -->
+<h2>Comments</h2>
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Submit" />
+</form>
+{% endblock %}

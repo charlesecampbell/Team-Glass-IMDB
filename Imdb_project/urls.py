@@ -16,12 +16,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from Imdb_app import views
-from Imdb_app.views import SignupView
+from Imdb_app.views import SignupView,details_view, login_view
 
 
 urlpatterns = [
     path('', views.home_page_view, name='home'),
     path('signup/', SignupView.as_view(), name='signup'),
+    # path('details/<int:id>', details_view, name='details')
+    path('details',details_view,name='details'),
+    path('login',login_view, name='login'),
     # path('searchresults/', vie)
     path('admin/', admin.site.urls),
 ]

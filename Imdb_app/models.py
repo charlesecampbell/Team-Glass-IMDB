@@ -23,7 +23,7 @@ class ApplicationUser(AbstractUser):
 
 class Comment_model(models.Model):
     input_field = models.TextField()
-    movie = models.URLField(max_length=500),
+    movie = models.URLField(max_length=500)
     commenter = models.ForeignKey(ApplicationUser, on_delete=models.CASCADE)
     date_created = models.DateTimeField(default=timezone.now)
     recommended = models.BooleanField(null=True)
