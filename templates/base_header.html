@@ -1,0 +1,28 @@
+<style>
+    #headerHolder {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        justify-content: space-around;
+        height: 75px;
+        background-color: greenyellow;
+    }
+</style>
+<div id=headerHolder>
+    <div id='signupLogin'>
+        <a href='/signup/'>Sign Up</a>
+        Login
+    </div>
+    <div id='logoName'>
+        <a href='/'><h1>ImdB</h1></a>
+    </div>
+    <div id='formHolder'>
+        <form  action='' method="post" id='form'>
+            {% csrf_token %}
+            {{search_form}}
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+</div>
+{% block content %}
+{% endblock %}
