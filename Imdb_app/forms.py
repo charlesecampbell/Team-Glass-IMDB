@@ -4,6 +4,7 @@ from Imdb_app.models import ApplicationUser, Comment_model
 
 
 class SignupForm(forms.Form):
+    email = forms.EmailField()
     display_name = forms.CharField(max_length=50)
     username = forms.CharField(max_length=50)
     password = forms.CharField(widget=forms.PasswordInput)
