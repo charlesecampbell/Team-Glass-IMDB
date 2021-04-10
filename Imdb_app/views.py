@@ -90,7 +90,8 @@ def search_details_view(request):
 
 # Details page view where as of now it has dummy data but will
 # eventually be filled with actual data from api
-def details_page(request):
+def details_page(request, selection_id):
+    print(selection_id)
     context = {}
     movie = {
         'title': 'Test Film',
@@ -112,7 +113,7 @@ def details_page(request):
             )
             print(new_item)
     form = Comment_Form()
-    context.update({'form': form})
+    context.update({'form': form, 'selection_id': selection_id})
     return render(request, 'details_page.html', context)
 
 
