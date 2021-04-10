@@ -1,9 +1,16 @@
 <style>
-    .movidInfo {
+    #resultsDisplay {
         display: flex;
         flex-direction: column;
-        align-content: center;
+        align-items: center;
+    }
+    .movieInfo {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         border: 1px solid black;
+        background-color: aqua;
+        width: 20%;
     }
 
     .moviePoster {
@@ -12,13 +19,22 @@
 </style>
 
 {% extends 'base_header.html'%}
+
 {% block content %}
+    <div id='resultsDisplay'>
     <h1>HELLO TEAM GLASS!</h1>
    {% for movie in movie_info %}
     <div class='movieInfo'>
-        <h2 class='movieTitle'>{{movie.title}}</h2>
-        <img src={{movie.poster}} alt={{movie.title}} class="moviePoster"/>
-        <h3 class="movieYear">{{movie.year}}</h3>
+        {% if movie.title%}
+            <h2 class='movieTitle'>{{movie.title}}</h2>
+        {% endif %}
+        {% if movie.poster %}
+            <img src={{movie.poster}} alt={{movie.title}} class="moviePoster"/>
+        {% endif %}
+        {% if movie.year %}
+            <h3 class="movieYear">{{movie.year}}</h3>
+        {% endif %}
     </div>
    {% endfor %}
+    </div>
 {% endblock%}
