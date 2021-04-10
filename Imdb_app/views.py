@@ -9,6 +9,7 @@ from Imdb_app.api_search_call import search_bar, results_data
 # Create your views here.
 def home_page_view(request):
     context = {}
+    user = request.user
     if request.method == 'POST':
         search_form = SearchForm(request.POST)
         if search_form.is_valid():
@@ -19,20 +20,27 @@ def home_page_view(request):
             # This calls the helper function to make the api Call
             reply = search_bar(data['search_selection'])
 
-            # This will tell us if its an actor or other media and help the redirection
+            # This will tell us if its an actor or other media and
+            # help the redirection
             page_decision = reply['d'][0]['id'][:2]
 
-            # This runs the data collecter function and creates a list of dictionaries to access in the templates
+            # This runs the data collecter function and creates a list of
+            # dictionaries to access in the templates
             movie_info = results_data(reply)
 
-            # This allows access to the data to be used in different views(see search_details_view to see how to call it)
+            # This allows access to the data to be used in different views
+            # (see search_details_view to see how to call it)
             request.session['movie_info'] = movie_info
 
             # This directs the search results to the correct page
             if page_decision != 'nm':
                 return redirect(reverse('search_details'))
+            # once we get the actor page it will get redirected to that if
+            # the search result is an actor
+            # else:
+                # return redirect( to the actor page once we get it )
     search_form = SearchForm()
-    context.update({'search_form': search_form})
+    context.update({'search_form': search_form, 'user': user})
     return render(request, 'homepage.html', context)
 
 
@@ -69,7 +77,8 @@ def search_details_view(request):
     # Gets the info collected from the api request
     movie_info = request.session.get('movie_info')
 
-    # Same as in the home page view this should go in every view as it controls the header search bar
+    # Same as in the home page view this should go in every view as
+    # it controls the header search bar
     if request.method == 'POST':
         search_form = SearchForm(request.POST)
         if search_form.is_valid():
@@ -95,10 +104,19 @@ def details_page(request, selection_id):
     context = {}
     movie = {
         'title': 'Test Film',
-        'description': '''Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ultricies augue eu nisi mollis, dapibus consectetur neque eleifend. Praesent sit amet dui tincidunt, condimentum quam sit amet, malesuada nisl.
-        Integer ac nisi aliquet nunc dignissim varius. Suspendisse eu ante sit amet nisi facilisis aliquam. Duis efficitur scelerisque lacinia. Nulla commodo tortor tristique mi luctus, vel ornare enim cursus.
-        Praesent porttitor ac augue bibendum venenatis. Vivamus lacus lorem, dapibus sit amet feugiat non, feugiat nec mauris. Ut lorem sem, elementum scelerisque risus sed, mattis porta felis. Interdum et malesuada fames ac ante ipsum primis in faucibus.
-        Donec sed nulla at tellus luctus maximus. Suspendisse convallis urna eget mauris tincidunt laoreet. Nam suscipit nisi vel mauris ornare sodales. Nullam bibendum faucibus congue. Curabitur at felis libero.'''
+        'description': '''Lorem ipsum dolor sit amet, consectetur adipiscing
+        elit. Ut ultricies augue eu nisi mollis, dapibus consectetur neque
+        eleifend. Praesent sit amet dui tincidunt, condimentum quam sit amet,
+        malesuada nisl. Integer ac nisi aliquet nunc dignissim varius.
+        Suspendisse eu ante sit amet nisi facilisis aliquam. Duis efficitur
+        scelerisque lacinia. Nulla commodo tortor tristique mi luctus, vel
+        ornare enim cursus. Praesent porttitor ac augue bibendum venenatis.
+        Vivamus lacus lorem, dapibus sit amet feugiat non, feugiat nec mauris.
+        Ut lorem sem, elementum scelerisque risus sed, mattis porta felis.
+        Interdum et malesuada fames ac ante ipsum primis in faucibus.
+        Donec sed nulla at tellus luctus maximus. Suspendisse convallis urna
+        eget mauris tincidunt laoreet. Nam suscipit nisi vel mauris ornare
+        sodales. Nullam bibendum faucibus congue. Curabitur at felis libero.'''
     }
     context.update({'movie': movie})
     if request.method == 'POST':
@@ -128,8 +146,13 @@ def login_view(request):
                 password=data['password']
                 )
             if user:
-                login(request,user)
-                print('logged in')
+                login(request, user)
+                return redirect(reverse('home'))
     form = LoginForm()
     context.update({'form': form})
     return render(request, 'login.html', context)
+
+
+def logout_view(request):
+    logout(request)
+    return redirect(reverse('home'))

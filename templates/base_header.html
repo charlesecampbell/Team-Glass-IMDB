@@ -7,14 +7,44 @@
         height: 75px;
         background-color: greenyellow;
     }
+
+    #signupLogin {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #username {
+        margin: 0 0 0 0;
+    }
+
+    #logout {
+        margin:  0 0 0 0;
+        color: black;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    #logo {
+        color: black;
+    }
 </style>
 <div id=headerHolder>
+    {% if request.user.is_authenticated %}
+        <div id='signupLogin'>
+            <h2 id='username'>Welcome {{request.user.display_name}}</h2>
+            <a href='/logout/'><h2 id='logout'>Logout</h2></a>
+        </div>
+    {% else %}
     <div id='signupLogin'>
         <a href='/signup/'>Sign Up</a>
-        Login
+        <a href='/login/'>Login</a>
     </div>
+    {% endif %}
     <div id='logoName'>
-        <a href='/'><h1>ImdB</h1></a>
+        <a href='/'><h1 id='logo'>ImdB</h1></a>
     </div>
     <div id='formHolder'>
         <form  action='' method="post" id='form'>

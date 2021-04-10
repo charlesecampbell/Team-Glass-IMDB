@@ -1,6 +1,6 @@
 
 from django import forms
-from Imdb_app.models import ApplicationUser, Comment_model
+from Imdb_app.models import Comment_model
 
 
 class SignupForm(forms.Form):
@@ -8,7 +8,8 @@ class SignupForm(forms.Form):
     display_name = forms.CharField(max_length=50)
     username = forms.CharField(max_length=50)
     password = forms.CharField(widget=forms.PasswordInput)
-    # Was unsure of to whether to include the likes,want_to_see, and have_seen in the inital signup or rather after
+    # Was unsure of to whether to include the likes,want_to_see,
+    # and have_seen in the inital signup or rather after
 
 
 # This is the comment form **Model Form
@@ -26,6 +27,7 @@ class Comment_Form(forms.ModelForm):
 
 class SearchForm(forms.Form):
     search_selection = forms.CharField(max_length=180)
+
 
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=50)

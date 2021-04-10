@@ -25,5 +25,6 @@ urlpatterns = [
     path('searchresults/', views.search_details_view, name='search_details'),
     path('details/<str:selection_id>/', details_page, name='details'),
     path('login/', login_view, name='login'),
+    path('logout/', views.logout_view, name='logout'),
     path('admin/', admin.site.urls),
 ]
