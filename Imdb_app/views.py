@@ -55,3 +55,6 @@ class SignupView(View):
             login(request, user)
             return redirect(reverse("home"))
         return render(request, self.template_name, {"form": form, "header": "Signup"})
+
+
+class ActorsView()
