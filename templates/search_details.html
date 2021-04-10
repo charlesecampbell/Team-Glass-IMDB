@@ -29,7 +29,7 @@
             <h2 class='movieTitle'>{{movie.title}}</h2>
         {% endif %}
         {% if movie.poster %}
-            <img src={{movie.poster}} alt={{movie.title}} class="moviePoster"/>
+           <a href='/details/{{movie.id}}/'><img src={{movie.poster}} alt={{movie.title}} class="moviePoster"/></a>
         {% endif %}
         {% if movie.year %}
             <h3 class="movieYear">{{movie.year}}</h3>

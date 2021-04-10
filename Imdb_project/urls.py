@@ -23,7 +23,7 @@ urlpatterns = [
     path('', views.home_page_view, name='home'),
     path('signup/', SignupView.as_view(), name='signup'),
     path('searchresults/', views.search_details_view, name='search_details'),
-    path('details/', details_page, name='details'),
+    path('details/<str:selection_id>/', details_page, name='details'),
     path('login/', login_view, name='login'),
     path('admin/', admin.site.urls),
 ]
