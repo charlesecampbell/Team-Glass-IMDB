@@ -4,21 +4,31 @@ from Imdb_app.forms import SearchForm, SignupForm, Comment_Form, LoginForm
 from Imdb_app.models import ApplicationUser, Comment_model
 from django.views import View
 from Imdb_app.api_search_call import search_bar, results_data
+
+
 # Create your views here.
-
-
 def home_page_view(request):
     context = {}
     if request.method == 'POST':
         search_form = SearchForm(request.POST)
         if search_form.is_valid():
+
+            # This is the search request data
             data = search_form.cleaned_data
-            print(data['search_selection'])
+
+            # This calls the helper function to make the api Call
             reply = search_bar(data['search_selection'])
+
+            # This will tell us if its an actor or other media and help the redirection
             page_decision = reply['d'][0]['id'][:2]
-            # This directs the search results to the search results page
+
+            # This runs the data collecter function and creates a list of dictionaries to access in the templates
             movie_info = results_data(reply)
+
+            # This allows access to the data to be used in different views(see search_details_view to see how to call it)
             request.session['movie_info'] = movie_info
+
+            # This directs the search results to the correct page
             if page_decision != 'nm':
                 return redirect(reverse('search_details'))
     search_form = SearchForm()
@@ -59,6 +69,7 @@ def search_details_view(request):
     # Gets the info collected from the api request
     movie_info = request.session.get('movie_info')
 
+    # Same as in the home page view this should go in every view as it controls the header search bar
     if request.method == 'POST':
         search_form = SearchForm(request.POST)
         if search_form.is_valid():
@@ -66,7 +77,6 @@ def search_details_view(request):
             print(data['search_selection'])
             reply = search_bar(data['search_selection'])
             page_decision = reply['d'][0]['id'][:2]
-            # This directs the search results to the search results page
             movie_info = results_data(reply)
             request.session['movie_info'] = movie_info
             if page_decision != 'nm':
