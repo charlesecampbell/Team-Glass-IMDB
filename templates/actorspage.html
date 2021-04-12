@@ -1,8 +1,22 @@
-{% extends 'base_header.html' %}
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Team Glass Imdb Actors Page</title>
+</head>
+<body> 
+{% extends 'base_header.html' %}
+<h1>{{header}}</h1>
 {% block content %}
 
-
-
+<img src={{imageUrl}} />
+{{reply}}
 
 {% endblock %}
+
+</body>
+
+</html>

@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, reverse
 from django.contrib.auth import login, logout
 import requests
+from requests.api import request
 from Imdb_app.forms import SearchForm, SignupForm
 from Imdb_app.models import ApplicationUser
 from django.views import View
@@ -57,4 +58,29 @@ class SignupView(View):
         return render(request, self.template_name, {"form": form, "header": "Signup"})
 
 
-class ActorsView()
+def ActorsView(request):
+    context = {}
+    reply = {}
+    if request.method == 'POST':
+        form = SearchForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            print(data['search_selection'])
+            # Api Call With the Search Results
+            url = "https://imdb8.p.rapidapi.com/auto-complete"
+            querystring = {"q": data['search_selection']}
+
+            headers = {
+                'x-rapidapi-key': "a3d8d2b4e0msh9912babc2875bfcp1e811cjsn1489c4504884",
+                'x-rapidapi-host': "imdb8.p.rapidapi.com"
+            }
+
+            response = requests.request(
+                "GET", url, headers=headers, params=querystring)
+
+            reply = response.json()
+            imageUrl = reply['d'][0]['i']['imageUrl']
+            print(response.json())
+        form = SearchForm()
+        context.update({'form': form, 'reply': reply, 'imageUrl': imageUrl})
+    return render(request, 'actorspage.html', context)
