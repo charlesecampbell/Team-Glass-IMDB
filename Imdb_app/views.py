@@ -5,8 +5,19 @@ from Imdb_app.models import ApplicationUser, Comment_model
 from django.views import View
 from Imdb_app.api_search_call import search_bar, results_data
 
+# Error handling
+
+
+def error_404(request, exception):
+    return render(request, "404.html")
+
+
+def error_500(request):
+    return render(request, "500.html")
 
 # Create your views here.
+
+
 def home_page_view(request):
     context = {}
     user = request.user
@@ -53,7 +64,7 @@ class SignupView(View):
         return render(request, self.template_name, {
             "form": form,
             "header": "Signup"
-            })
+        })
 
     def post(self, request):
         form = self.form_class(request.POST)
@@ -70,7 +81,7 @@ class SignupView(View):
         return render(request, self.template_name, {
             "form": form,
             "header": "Signup"
-            })
+        })
 
 
 def search_details_view(request):
@@ -94,7 +105,7 @@ def search_details_view(request):
     return render(request, 'search_details.html', {
         'search_form': search_form,
         'movie_info': movie_info
-        })
+    })
 
 
 # Details page view where as of now it has dummy data but will
@@ -144,7 +155,7 @@ def login_view(request):
             user = authenticate(
                 request, username=data['username'],
                 password=data['password']
-                )
+            )
             if user:
                 login(request, user)
                 return redirect(reverse('home'))

@@ -18,7 +18,6 @@ from django.urls import path
 from Imdb_app import views
 from Imdb_app.views import SignupView, login_view, details_page
 
-
 urlpatterns = [
     path('', views.home_page_view, name='home'),
     path('signup/', SignupView.as_view(), name='signup'),
@@ -28,3 +27,7 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('admin/', admin.site.urls),
 ]
+
+# added handler varables for views.py
+handler404 = 'Imdb_app.views.error_404'
+handler500 = 'Imdb_app.views.error_500'
