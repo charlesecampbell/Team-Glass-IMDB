@@ -20,7 +20,7 @@ def home_page_view(request):
             data = search_form.cleaned_data
 
             # This calls the helper function to make the api Call
-            reply = search_bar(data['search_selection'])
+            reply = search_bar(data['search_actors_or_movies'])
 
             # This will tell us if its an actor or other media and
             # help the redirection
@@ -86,8 +86,8 @@ def search_details_view(request):
         search_form = SearchForm(request.POST)
         if search_form.is_valid():
             data = search_form.cleaned_data
-            print(data['search_selection'])
-            reply = search_bar(data['search_selection'])
+            print(data['search_actors_or_movies'])
+            reply = search_bar(data['search_actors_or_movies'])
             page_decision = reply['d'][0]['id'][:2]
             movie_info = results_data(reply)
             request.session['movie_info'] = movie_info
@@ -95,6 +95,7 @@ def search_details_view(request):
                 return redirect(reverse('search_details'))
             else:
                 return redirect(reverse('actorspage'))
+    # END HEADER SEARCH BAR
     search_form = SearchForm()
     return render(request, 'search_details.html', {
         'search_form': search_form,
@@ -113,7 +114,7 @@ def details_page(request, selection_id):
         search_form = SearchForm(request.POST)
         if search_form.is_valid():
             data = search_form.cleaned_data
-            reply = search_bar(data['search_selection'])
+            reply = search_bar(data['search_actors_or_movies'])
             page_decision = reply['d'][0]['id'][:2]
             movie_info = results_data(reply)
             request.session['movie_info'] = movie_info
@@ -170,7 +171,7 @@ def login_view(request):
         search_form = SearchForm(request.POST)
         if search_form.is_valid():
             data = search_form.cleaned_data
-            reply = search_bar(data['search_selection'])
+            reply = search_bar(data['search_actors_or_movies'])
             page_decision = reply['d'][0]['id'][:2]
             movie_info = results_data(reply)
             request.session['movie_info'] = movie_info
@@ -211,7 +212,7 @@ def ActorsView(request):
         search_form = SearchForm(request.POST)
         if search_form.is_valid():
             data = search_form.cleaned_data
-            reply = search_bar(data['search_selection'])
+            reply = search_bar(data['search_actors_or_movies'])
             page_decision = reply['d'][0]['id'][:2]
             movie_info = results_data(reply)
             request.session['movie_info'] = movie_info
