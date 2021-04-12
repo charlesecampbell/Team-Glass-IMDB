@@ -4,6 +4,7 @@ from Imdb_app.forms import SearchForm, SignupForm, Comment_Form, LoginForm
 from Imdb_app.models import ApplicationUser, Comment_model
 from django.views import View
 from Imdb_app.api_search_call import search_bar, results_data
+import requests
 
 # Error handling
 
@@ -21,6 +22,7 @@ def error_500(request):
 def home_page_view(request):
     context = {}
     user = request.user
+    # SEARCH FORM IN THE HEADER
     if request.method == 'POST':
         search_form = SearchForm(request.POST)
         if search_form.is_valid():
@@ -29,7 +31,7 @@ def home_page_view(request):
             data = search_form.cleaned_data
 
             # This calls the helper function to make the api Call
-            reply = search_bar(data['search_selection'])
+            reply = search_bar(data['search_actors_or_movies'])
 
             # This will tell us if its an actor or other media and
             # help the redirection
@@ -46,10 +48,10 @@ def home_page_view(request):
             # This directs the search results to the correct page
             if page_decision != 'nm':
                 return redirect(reverse('search_details'))
-            # once we get the actor page it will get redirected to that if
-            # the search result is an actor
-            # else:
-                # return redirect( to the actor page once we get it )
+            else:
+                return redirect(reverse('actorspage'))
+    # END SEARCH FORM IN THE HEADER
+
     search_form = SearchForm()
     context.update({'search_form': search_form, 'user': user})
     return render(request, 'homepage.html', context)
@@ -57,6 +59,7 @@ def home_page_view(request):
 
 class SignupView(View):
     form_class = SignupForm
+    search_form = SearchForm
     template_name = "signup.html"
 
     def get(self, request):
@@ -94,13 +97,16 @@ def search_details_view(request):
         search_form = SearchForm(request.POST)
         if search_form.is_valid():
             data = search_form.cleaned_data
-            print(data['search_selection'])
-            reply = search_bar(data['search_selection'])
+            print(data['search_actors_or_movies'])
+            reply = search_bar(data['search_actors_or_movies'])
             page_decision = reply['d'][0]['id'][:2]
             movie_info = results_data(reply)
             request.session['movie_info'] = movie_info
             if page_decision != 'nm':
                 return redirect(reverse('search_details'))
+            else:
+                return redirect(reverse('actorspage'))
+    # END HEADER SEARCH BAR
     search_form = SearchForm()
     return render(request, 'search_details.html', {
         'search_form': search_form,
@@ -113,6 +119,22 @@ def search_details_view(request):
 def details_page(request, selection_id):
     print(selection_id)
     context = {}
+
+    # SEARCH FORM IN THE HEADER
+    if request.method == 'POST':
+        search_form = SearchForm(request.POST)
+        if search_form.is_valid():
+            data = search_form.cleaned_data
+            reply = search_bar(data['search_actors_or_movies'])
+            page_decision = reply['d'][0]['id'][:2]
+            movie_info = results_data(reply)
+            request.session['movie_info'] = movie_info
+            if page_decision != 'nm':
+                return redirect(reverse('search_details'))
+            else:
+                return redirect(reverse('actorspage'))
+    # End of Form Search Request From Header
+
     movie = {
         'title': 'Test Film',
         'description': '''Lorem ipsum dolor sit amet, consectetur adipiscing
@@ -142,12 +164,34 @@ def details_page(request, selection_id):
             )
             print(new_item)
     form = Comment_Form()
-    context.update({'form': form, 'selection_id': selection_id})
+    search_form = SearchForm()
+    context.update(
+        {
+            'form': form,
+            'selection_id': selection_id,
+            'search_form': search_form
+        })
     return render(request, 'details_page.html', context)
 
 
 def login_view(request):
     context = {}
+
+    # SEARCH FORM IN THE HEADER
+    if request.method == 'POST':
+        search_form = SearchForm(request.POST)
+        if search_form.is_valid():
+            data = search_form.cleaned_data
+            reply = search_bar(data['search_actors_or_movies'])
+            page_decision = reply['d'][0]['id'][:2]
+            movie_info = results_data(reply)
+            request.session['movie_info'] = movie_info
+            if page_decision != 'nm':
+                return redirect(reverse('search_details'))
+            else:
+                return redirect(reverse('actorspage'))
+    # End of Form Search Request From Header
+
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
@@ -160,10 +204,63 @@ def login_view(request):
                 login(request, user)
                 return redirect(reverse('home'))
     form = LoginForm()
-    context.update({'form': form})
+    search_form = SearchForm()
+    context.update({'form': form, 'search_form': search_form})
     return render(request, 'login.html', context)
 
 
 def logout_view(request):
     logout(request)
     return redirect(reverse('home'))
+
+
+def ActorsView(request):
+    context = {}
+    reply = {}
+
+    # SEARCH FORM IN THE HEADER
+    if request.method == 'POST':
+        search_form = SearchForm(request.POST)
+        if search_form.is_valid():
+            data = search_form.cleaned_data
+            reply = search_bar(data['search_actors_or_movies'])
+            page_decision = reply['d'][0]['id'][:2]
+            movie_info = results_data(reply)
+            request.session['movie_info'] = movie_info
+            if page_decision != 'nm':
+                return redirect(reverse('search_details'))
+            else:
+                return redirect(reverse('actorspage'))
+    # End of Form Search Request From Header
+
+    movie_info = request.session.get("movie_info")
+    search_id = movie_info[0]['id']
+
+    # Api Call With the Search Results
+    url = "https://imdb8.p.rapidapi.com/actors/get-all-images"
+    querystring = {"nconst": search_id}
+
+    headers = {
+        'x-rapidapi-key': "a3d8d2b4e0msh9912babc2875bfcp1e811cjsn1489c4504884",
+        'x-rapidapi-host': "imdb8.p.rapidapi.com"
+    }
+
+    response = requests.request(
+        "GET", url, headers=headers, params=querystring)
+
+    reply = response.json()
+    search_form = SearchForm()
+    count = 0
+    imageArray = []
+    for images in reply['resource']['images']:
+        if count < 5:
+            imageArray.append(images['url'])
+            count += 1
+    context.update(
+        {
+            'reply': reply,
+            'imageArray': imageArray,
+            'movie_info': movie_info,
+            'search_form': search_form
+            })
+    return render(request, 'actorspage.html', context)
