@@ -10,6 +10,7 @@ from Imdb_app.api_search_call import search_bar, results_data
 def home_page_view(request):
     context = {}
     user = request.user
+    # SEARCH FORM IN THE HEADER
     if request.method == 'POST':
         search_form = SearchForm(request.POST)
         if search_form.is_valid():
