@@ -26,7 +26,7 @@ class Comment_Form(forms.ModelForm):
 
 
 class SearchForm(forms.Form):
-    search_selection = forms.CharField(max_length=180)
+    search_imdb = forms.CharField(max_length=180)
 
 
 class LoginForm(forms.Form):
