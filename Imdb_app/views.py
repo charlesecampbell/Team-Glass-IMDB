@@ -6,8 +6,19 @@ from django.views import View
 from Imdb_app.api_search_call import search_bar, results_data
 import requests
 
+# Error handling
+
+
+def error_404(request, exception):
+    return render(request, "404.html")
+
+
+def error_500(request):
+    return render(request, "500.html")
 
 # Create your views here.
+
+
 def home_page_view(request):
     context = {}
     user = request.user
