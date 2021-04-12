@@ -61,26 +61,21 @@ class SignupView(View):
 def ActorsView(request):
     context = {}
     reply = {}
-    if request.method == 'POST':
-        form = SearchForm(request.POST)
-        if form.is_valid():
-            data = form.cleaned_data
-            print(data['search_selection'])
-            # Api Call With the Search Results
-            url = "https://imdb8.p.rapidapi.com/auto-complete"
-            querystring = {"q": data['search_selection']}
+    movie_info = request.session.get("movie_info")
+# Api Call With the Search Results
+    url = "https://imdb8.p.rapidapi.com/actors/get-all-images"
+    querystring = {"q": movie_info['d'][0]['id']}
 
-            headers = {
-                'x-rapidapi-key': "a3d8d2b4e0msh9912babc2875bfcp1e811cjsn1489c4504884",
-                'x-rapidapi-host': "imdb8.p.rapidapi.com"
-            }
+    headers = {
+        'x-rapidapi-key': "a3d8d2b4e0msh9912babc2875bfcp1e811cjsn1489c4504884",
+        'x-rapidapi-host': "imdb8.p.rapidapi.com"
+    }
 
-            response = requests.request(
-                "GET", url, headers=headers, params=querystring)
+    response = requests.request(
+        "GET", url, headers=headers, params=querystring)
 
-            reply = response.json()
-            imageUrl = reply['d'][0]['i']['imageUrl']
-            print(response.json())
-        form = SearchForm()
-        context.update({'form': form, 'reply': reply, 'imageUrl': imageUrl})
+    reply = response.json()
+    imageUrl = movie_info['d'][0]['i']['imageUrl']
+    print(response.json())
+    context.update({'form': form, 'reply': reply, 'imageUrl': imageUrl})
     return render(request, 'actorspage.html', context)

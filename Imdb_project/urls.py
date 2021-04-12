@@ -24,5 +24,5 @@ urlpatterns = [
     path('signup/', SignupView.as_view(), name='signup'),
     # path('searchresults/', vie)
     path('admin/', admin.site.urls),
-    path('actors/', views.actors_page_view, name='actors'),
+    path('actors/', views.ActorsView, name='actors'),
 ]
