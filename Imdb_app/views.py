@@ -95,6 +95,7 @@ def search_details_view(request):
                 return redirect(reverse('search_details'))
             else:
                 return redirect(reverse('actorspage'))
+    # END HEADER SEARCH BAR
     search_form = SearchForm()
     return render(request, 'search_details.html', {
         'search_form': search_form,

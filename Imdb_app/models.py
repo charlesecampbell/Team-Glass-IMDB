@@ -12,12 +12,12 @@ class ApplicationUser(AbstractUser):
         max_length=5000
     )
     want_to_see = ListCharField(
-        base_field=models.URLField(max_length=500), 
+        base_field=models.URLField(max_length=500),
         max_length=5000
     )
     have_seen = ListCharField(
         base_field=models.URLField(max_length=500),
-        max_length=5000, 
+        max_length=5000,
     )
 
 
