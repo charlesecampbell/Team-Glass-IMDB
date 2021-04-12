@@ -4,6 +4,7 @@ from Imdb_app.forms import SearchForm, SignupForm, Comment_Form, LoginForm
 from Imdb_app.models import ApplicationUser, Comment_model
 from django.views import View
 from Imdb_app.api_search_call import search_bar, results_data
+import requests
 
 
 # Create your views here.
@@ -54,7 +55,7 @@ class SignupView(View):
         return render(request, self.template_name, {
             "form": form,
             "header": "Signup"
-            })
+        })
 
     def post(self, request):
         form = self.form_class(request.POST)
@@ -71,7 +72,7 @@ class SignupView(View):
         return render(request, self.template_name, {
             "form": form,
             "header": "Signup"
-            })
+        })
 
 
 def search_details_view(request):
@@ -95,7 +96,7 @@ def search_details_view(request):
     return render(request, 'search_details.html', {
         'search_form': search_form,
         'movie_info': movie_info
-        })
+    })
 
 
 # Details page view where as of now it has dummy data but will
@@ -145,7 +146,7 @@ def login_view(request):
             user = authenticate(
                 request, username=data['username'],
                 password=data['password']
-                )
+            )
             if user:
                 login(request, user)
                 return redirect(reverse('home'))
@@ -157,3 +158,30 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect(reverse('home'))
+
+
+def ActorsView(request):
+    context = {}
+    reply = {}
+    # movie_info = request.session.get("movie_info")
+# Api Call With the Search Results
+    url = "https://imdb8.p.rapidapi.com/actors/get-all-images"
+    querystring = {"nconst": "nm0000246"}
+
+    headers = {
+        'x-rapidapi-key': "a3d8d2b4e0msh9912babc2875bfcp1e811cjsn1489c4504884",
+        'x-rapidapi-host': "imdb8.p.rapidapi.com"
+    }
+
+    response = requests.request(
+        "GET", url, headers=headers, params=querystring)
+
+    reply = response.json()
+    count = 0
+    imageArray = []
+    for images in reply['resource']['images']:
+        if count < 5:
+            imageArray.append(images['url'])
+            count += 1
+    context.update({'reply': reply, 'imageArray': imageArray})
+    return render(request, 'actorspage.html', context)
