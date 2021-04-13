@@ -2,12 +2,20 @@
     body {
         background-color: black;
     }
+
+    #topHolder {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
     #topFiveHolder {
         display: flex;
         flex-direction: column;
         align-items: center;
         background-color: rgb(124, 218, 189);
         margin: 25px 0 0 0;
+        width: 1100px;
     }
 
     #topFiveMovieHolder {
@@ -44,6 +52,7 @@
         align-items: center;
         background-color: rgb(124, 218, 189);
         margin: 25px 0 0 0;
+        width: 1100px;
     }
 
     #topFiveListHolder {
@@ -80,10 +89,53 @@
         font-size: 18px;
     }
 
+    #comments {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: white;
+        height: 300px;
+        overflow: scroll;
+        max-width: 265px;
+        margin: 30px 0 30px 0;
+    }
+
+    .commentHolder {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: rgb(124, 218, 189);
+        margin: 5px 5px 5px 5px;
+        width: 250px;
+    }
+
+    .cmPoster {
+        max-width: 75px;
+    }
+
+    .cmTitle {
+        text-align: center;
+    }
+
+    .cmDateHolder {
+        display: flex;
+        justify-content: space-around;
+
+    }
+
+    .cmDate {
+        margin: 0 0 0 5px;
+    }
+
+    .cmCommenter {
+        margin: 0 5px 0 0;
+    }
+
 </style>
 {% extends 'base_header.html' %}
 
 {% block content %}
+<div id='topHolder'>
 <div id='topFiveHolder'>
     <h2 id='topFiveTitle'>CURRENT TOP FIVE MOVIES</h2>
     <div id='topFiveMovieHolder'>
@@ -109,4 +161,26 @@
 {% endfor %}
     </div>
 </div>
+</div>
+<div id='comments'>
+    <h2 id='cmHeader'>RECENT COMMENTS</h2>
+    {% for comment in comments %}
+        <div class='commentHolder'>
+            <h3 class="cmTitle">{{comment.movie_title}}</h3>
+           <a href="details/{{comment.movie_id}}/"><img src={{comment.movie_image}} class='cmPoster' alt={{comment.movie_title}}/></a>
+            <h4 class='cmComment'>{{comment.input_field}}</h4>
+            <div class='cmDateHolder'>
+                <h5 class='cmCommenter'>By: {{comment.commenter}}</h5>
+                <h5 class='cmDate'>{{comment.date_created}}</h5>
+            </div>
+        </div>
+    {% endfor %}
+</div>
 {% endblock %}
+
+'comment': comments.input_field,
+    #             'poster': comments.movie_image,
+    #             'title': comments.movie_title,
+    #             'commenter': comments.commenter,
+    #             'movie_id': comments.movie_id,
+    #             'date_created': comments.date_created
