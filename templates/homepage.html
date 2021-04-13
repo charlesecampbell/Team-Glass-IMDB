@@ -1,7 +1,112 @@
+<style>
+    body {
+        background-color: black;
+    }
+    #topFiveHolder {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: rgb(124, 218, 189);
+        margin: 25px 0 0 0;
+    }
+
+    #topFiveMovieHolder {
+        display: flex;
+    }
+
+    .movieInTopFive {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 0 15px 0 15px;
+        width: 200px;
+        overflow-wrap: break-word;
+    }
+    .moviePoster {
+        max-width: 150px;
+    }
+
+    .movieTitle {
+        text-align: center;
+        margin: 0 0 0 0;
+        height: 60px;
+        font-size: 18px;
+    }
+
+    .movieYear {
+        font-size: 18px;
+    }
+
+    #topFiveTvHolder {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: rgb(124, 218, 189);
+        margin: 25px 0 0 0;
+    }
+
+    #topFiveListHolder {
+        display: flex;
+    }
+
+    .topFiveTvHolder2 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 0 15px 0 15px;
+        width: 200px;
+        overflow-wrap: break-word;
+    }
+
+    .tvTitle {
+        text-align: center;
+        margin: 0 0 0 0;
+        height: 60px;
+        font-size: 18px;
+    }
+
+    #topFiveTvListHolder {
+        display: flex;
+    }
+
+    .topTvPoster {
+        max-width: 150px;
+        height: 223px;
+    }
+
+    .tvYear {
+        font-size: 18px;
+    }
+
+</style>
 {% extends 'base_header.html' %}
 
 {% block content %}
+<div id='topFiveHolder'>
+    <h2 id='topFiveTitle'>CURRENT TOP FIVE MOVIES</h2>
+    <div id='topFiveMovieHolder'>
+{% for movie in home_page_movie_data %}
+    <div class='movieInTopFive'>
+        <h2 class='movieTitle'>{{movie.title}}</h2>
+       <a href='/details/{{movie.id}}/'><img class='moviePoster' src={{movie.image}} alt={{movie.title}} /></a>
+        <h2 class='movieYear'>{{movie.year}}</h2>
+    </div>
+{% endfor %}
+    </div>
+</div>
 
-<h1>Welcome to team Glass Imdb Project!</h1>
-
+<div id='topFiveTvHolder'>
+    <h2 id='topFiveTvTitle'>CURRENT TOP FIVE TV SHOWS</h2>
+    <div id='topFiveTvListHolder'>
+{% for show in homepage_tv_data %}
+    <div class='topFiveTvHolder2'>
+        <h2 class='tvTitle'>{{show.title}}</h2>
+        <a href='/details/{{show.id}}/'><img class='topTvPoster' src={{show.image}} alt={{show.title}} /></a>
+        <h2 class="tvYear">{{show.year}}</h2>
+    </div>
+{% endfor %}
+    </div>
+</div>
 {% endblock %}
