@@ -18,9 +18,6 @@ class Comment_Form(forms.ModelForm):
         model = Comment_model
         fields = [
             'input_field',
-            'movie',
-            'commenter',
-            'date_created',
             'recommended'
         ]
 

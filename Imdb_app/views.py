@@ -1,15 +1,15 @@
 from django.shortcuts import render, redirect, reverse
 from django.contrib.auth import login, logout, authenticate
 from Imdb_app.forms import SearchForm, SignupForm, Comment_Form, LoginForm
-from Imdb_app.models import ApplicationUser, Comment_model,LikedMoviesModel,WantToSeeModel,HaveSeenModel
+from Imdb_app.models import ApplicationUser, Comment_model, LikedMoviesModel
+from Imdb_app.models import WantToSeeModel, HaveSeenModel
 from django.views import View
-from .helpers import *
+from Imdb_app.helpers import check_model, check_model_x_api
 from Imdb_app.api_search_call import search_bar, results_data
 import requests
 
+
 # Error handling
-
-
 def error_404(request, exception):
     return render(request, "404.html")
 
@@ -45,7 +45,6 @@ def home_page_view(request):
             # This allows access to the data to be used in different views
             # (see search_details_view to see how to call it)
             request.session['movie_info'] = movie_info
-
             # This directs the search results to the correct page
             if page_decision != 'nm':
                 return redirect(reverse('search_details'))
@@ -239,31 +238,12 @@ def search_details_view(request):
     })
 
 
+# #########################################################################################################
 # Details page view where as of now it has dummy data but will
 # eventually be filled with actual data from api
 def details_page(request, selection_id):
-    app_user = ApplicationUser.objects.filter(username=request.user.username).first()
-    liked = check_model(app_user, LikedMoviesModel, selection_id)
-    seen = check_model(app_user, HaveSeenModel, selection_id)
-    want_to = check_model(app_user, WantToSeeModel, selection_id)
-    '''I have here my api keys but it can be changed to whichever we use'''
-    url = "https://imdb8.p.rapidapi.com/auto-complete"
 
-    querystring = {"q":selection_id}
-
-    headers = {
-        'x-rapidapi-key': "efd1846cd5msha44439c92dc4ef6p1277bdjsn8f5254945eb1",
-        'x-rapidapi-host': "imdb8.p.rapidapi.com"
-    }
-
-    response = requests.request("GET", url, headers=headers, params=querystring)
-    data = response.json()
-    context = {}
-    context.update({'data':data})
-    check_model_x_api(liked,context['data'], 'liked_movie')
-    check_model_x_api(seen, context['data'], 'seen_movie')
-    check_model_x_api(want_to, context['data'], 'want_to_see')
-    print(context)
+    # HEADER FORM SEARCH BAR REQUEST
     if request.method == 'POST':
         search_form = SearchForm(request.POST)
         if search_form.is_valid():
@@ -277,13 +257,39 @@ def details_page(request, selection_id):
             else:
                 return redirect(reverse('actorspage'))
     # End of Form Search Request From Header
+
+
+    app_user = ApplicationUser.objects.filter(username=request.user.username).first()
+    liked = check_model(app_user, LikedMoviesModel, selection_id)
+    seen = check_model(app_user, HaveSeenModel, selection_id)
+    want_to = check_model(app_user, WantToSeeModel, selection_id)
+    '''I have here my api keys but it can be changed to whichever we use'''
+    url = "https://imdb8.p.rapidapi.com/auto-complete"
+
+    querystring = {"q": selection_id}
+
+    headers = {
+        'x-rapidapi-key': "efd1846cd5msha44439c92dc4ef6p1277bdjsn8f5254945eb1",
+        'x-rapidapi-host': "imdb8.p.rapidapi.com"
+    }
+
+    response = requests.request("GET", url, headers=headers, params=querystring)
+    reply_data = response.json()
+    context = {}
+    context.update({'reply_data': reply_data})
+    check_model_x_api(liked, context['reply_data'], 'liked_movie')
+    check_model_x_api(seen, context['reply_data'], 'seen_movie')
+    check_model_x_api(want_to, context['reply_data'], 'want_to_see')
+    print(context)
+
     if request.method == 'POST':
         form = Comment_Form(request.POST)
         if form.is_valid():
             data = form.cleaned_data
             new_item = Comment_model.objects.create(
                 input_field=data['input_field'],
-                movie=data['movie'],
+                movie_image=reply_data['d'][0]['i']['imageUrl'],
+                movie_title=reply_data['d'][0]['l'],
                 commenter=request.user,
                 movie_id=selection_id,
                 recommended=data['recommended']
@@ -299,7 +305,7 @@ def details_page(request, selection_id):
         })
     return render(request, 'details_page.html', context)
 
-
+# ###########################################################################################################
 def login_view(request):
     context = {}
 
