@@ -4,10 +4,10 @@ from .models import ApplicationUser, Comment_model, LikedMoviesModel, WantToSeeM
 # Register your models here.
 class CustomAdmin(UserAdmin):
     fieldsets = UserAdmin.fieldsets + (
-        ('Custom Fields', {'fields': ('display_name','likes','want_to_see','have_seen')}),
+        ('Custom Fields', {'fields': ('display_name',)}),
     )
     add_fieldsets = UserAdmin.add_fieldsets + (
-        ('Custom Fields', {'fields': ('display_name','likes','want_to_see','have_seen')}),
+        ('Custom Fields', {'fields': ('display_name',)}),
     )
     
 admin.site.register(ApplicationUser, CustomAdmin)
