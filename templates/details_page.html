@@ -1,8 +1,42 @@
 {% extends 'base_header.html' %}
+{% load split_tag %}
 
 {% block content %}
 <h1>Details Page</h1>
-{{selection_id}}
+<h3>{{data.d.0.l}}</h3>
+<img src={{data.d.0.i.imageUrl}} width="500">
+<h3>Year {{data.d.0.y}}</h3>
+<h3>Actors</h3>
+{% with data.d.0.s|split:"," as item %}
+    {% for actor in item %}
+        {{actor }} <br>
+    {% endfor %}
+{% endwith %}
+
+<br>
+{% if data.liked_movie == 'yes' %}
+<h3>Movie is liked</h3>
+{% else %}
+<a href='/addtolikes/{{data.q}}/'>Add to Liked Movies</a><br>
+{% endif %}
+
+{% if data.seen_movie == 'yes' %}
+Movie Has been seen
+{% else %}
+<a href='/addtoseen/{{data.q}}/'>Add to Seen Movies</a><br>
+{% endif %}
+
+
+{% if data.want_to_see == 'no' and data.seen_movie == 'no' %}
+<a href='/addtowantosee/{{data.q}}/'>Add to Want to See</a><br>
+{% endif %}
+<!-- {% if data.want_to_see == 'yes' %}
+<h2>Movie wants to be seen</h2>
+{% else %}
+<a href='/addtowantosee/{{data.q}}/'>Add to Want to See</a><br>
+{% endif %} -->
+
+<hr>
 <h2>Comments</h2>
 <form method="post" action="">
     {% csrf_token %}

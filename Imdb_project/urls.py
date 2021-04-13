@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from Imdb_app import views
-from Imdb_app.views import SignupView, login_view, details_page
+from Imdb_app.views import SignupView, login_view, details_page, add_to_likes, want_to_see, movies_have_seen
 
 urlpatterns = [
     path('', views.home_page_view, name='home'),
@@ -26,6 +26,9 @@ urlpatterns = [
     path('login/', login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
     path('actorspage/', views.ActorsView, name='actorspage'),
+    path('addtolikes/<str:id>/',add_to_likes, name='add_to_likes'),
+    path('addtoseen/<str:id>/', movies_have_seen, name='have_seen'),
+    path('addtowantosee/<str:id>/', want_to_see, name='want_to_see'),
     path('admin/', admin.site.urls),
 ]
 
