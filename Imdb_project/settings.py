@@ -65,6 +65,9 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+        'libraries':{
+            'split_tag':'Imdb_app.templatetags.split'
+        }
         },
     },
 ]
