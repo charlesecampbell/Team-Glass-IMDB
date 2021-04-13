@@ -22,6 +22,7 @@ def error_500(request):
 
 
 def home_page_view(request):
+    comments = Comment_model.objects.all()
     context = {}
     user = request.user
     # SEARCH FORM IN THE HEADER
@@ -172,12 +173,27 @@ def home_page_view(request):
     #             "year": tv_reply['title']['year']
     #         })
 
+    # recent_comments = []
+    # count = 0
+    # for comment in comments:
+    #     if count < 20:
+    #         recent_comments.append({
+    #             'comment': comments.input_field,
+    #             'poster': comments.movie_image,
+    #             'title': comments.movie_title,
+    #             'commenter': comments.commenter,
+    #             'movie_id': comments.movie_id,
+    #             'date_created': comments.date_created
+    #         })
+    #         count += 1
+    # print(recent_comments)
     search_form = SearchForm()
     context.update({
         'search_form': search_form,
         'user': user,
         'home_page_movie_data': home_page_movie_data,
-        'homepage_tv_data': home_page_tv_data
+        'homepage_tv_data': home_page_tv_data,
+        'comments': comments
         })
     return render(request, 'homepage.html', context)
 
