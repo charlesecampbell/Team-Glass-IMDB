@@ -6,8 +6,9 @@ from django.views import View
 from Imdb_app.api_search_call import search_bar, results_data
 import requests
 
-
 # Create your views here.
+
+
 def home_page_view(request):
     context = {}
     user = request.user
