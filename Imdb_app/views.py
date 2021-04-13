@@ -52,8 +52,132 @@ def home_page_view(request):
                 return redirect(reverse('actorspage'))
     # END SEARCH FORM IN THE HEADER
 
+    # GET A TOP FIVE MOVIE LIST TITLE ID'S
+    # url = "https://imdb8.p.rapidapi.com/title/get-most-popular-movies"
+
+    # querystring = {
+    #     "homeCountry": "US",
+    #     "purchaseCountry": "US",
+    #     "currentCountry": "US"
+    #     }
+
+    # headers = {
+    #     'x-rapidapi-key': "1ddf0a8da3msh877010e622bf74dp10873cjsnd762a292965a",
+    #     'x-rapidapi-host': "imdb8.p.rapidapi.com"
+    #     }
+
+    # response = requests.request(
+    #     "GET",
+    #     url,
+    #     headers=headers,
+    #     params=querystring
+    #     )
+
+    # reply = response.json()
+    # top_five_list = []
+    # count = 0
+    # for title_id in reply:
+    #     if count < 5:
+    #         top_five_list.append(title_id[7:-1])
+    #         count += 1
+
+    # USE TITLE ID'S TO GET MOVIE INFO
+    home_page_movie_data = [{'id': 'tt5034838', 'image': 'https://m.media-amazon.com/images/M/MV5BZmYzMzU4NjctNDI0Mi00MGExLWI3ZDQtYzQzYThmYzc2ZmNjXkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_.jpg', 'title': 'Godzilla vs. Kong', 'year': 2021}, {'id': 'tt3480822', 'image': 'https://m.media-amazon.com/images/M/MV5BYjdmODAzNTctNWU1NS00ZmRiLWFiM2YtMjAyNzgzZWJlZjhlXkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_.jpg', 'title': 'Black Widow', 'year': 2021}, {'id': 'tt12361974', 'image': 'https://m.media-amazon.com/images/M/MV5BYjI3NDg0ZTEtMDEwYS00YWMyLThjYjktMTNlM2NmYjc1OGRiXkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_.jpg', 'title': "Zack Snyder's Justice League", 'year': 2021}, {'id': 'tt0293429', 'image': 'https://m.media-amazon.com/images/M/MV5BY2ZlNWIxODMtN2YwZi00ZjNmLWIyN2UtZTFkYmZkNDQyNTAyXkEyXkFqcGdeQXVyODkzNTgxMDg@._V1_.jpg', 'title': 'Mortal Kombat', 'year': 2021}, {'id': 'tt3554046', 'image': 'https://m.media-amazon.com/images/M/MV5BNjg3NmUwYjctMmIzYS00ZTNiLTlhNTYtMWMxNzE5YWIzNmQ4XkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg', 'title': 'Space Jam: A New Legacy', 'year': 2021}]
+    # for movie in top_five_list:
+    #     url = "https://imdb8.p.rapidapi.com/title/get-top-stripe"
+
+    #     querystring = {
+    #         "tconst": movie,
+    #         "currentCountry": "US",
+    #         "purchaseCountry": "US"
+    #         }
+
+    #     headers = {
+    #         'x-rapidapi-key': "1ddf0a8da3msh877010e622bf74dp10873cjsnd762a292965a",
+    #         'x-rapidapi-host': "imdb8.p.rapidapi.com"
+    #     }
+
+    #     response = requests.request(
+    #         "GET",
+    #         url,
+    #         headers=headers,
+    #         params=querystring
+    #         )
+
+    #     top_reply = response.json()
+    #     home_page_movie_data.append(
+    #         {
+    #             "id": top_reply['title']['id'][7:-1],
+    #             "image": top_reply['title']['image']['url'],
+    #             "title": top_reply['title']['title'],
+    #             "year": top_reply['title']['year']
+    #         })
+    # print(home_page_movie_data)
+
+    # GET TOP 5 TV IDS
+    # url = "https://imdb8.p.rapidapi.com/title/get-most-popular-tv-shows"
+
+    # querystring = {"homeCountry": "US", "purchaseCountry": "US", "currentCountry": "US"}
+
+    # headers = {
+    #     'x-rapidapi-key': "1ddf0a8da3msh877010e622bf74dp10873cjsnd762a292965a",
+    #     'x-rapidapi-host': "imdb8.p.rapidapi.com"
+    #     }
+
+    # response = requests.request(
+    #     "GET",
+    #     url, headers=headers,
+    #     params=querystring
+    #     )
+
+    # reply = response.json()
+    # top_tv_ids = []
+    # count2 = 0
+    # for id in reply:
+    #     if count2 < 5:
+    #         top_tv_ids.append(id[7:-1])
+    #         count2 += 1
+    # print(top_tv_ids)
+
+    # REQUEST TO GET THE TOP 5 TV INFO
+    home_page_tv_data = [{'id': 'tt9208876', 'image': 'https://m.media-amazon.com/images/M/MV5BODNiODVmYjItM2MyMC00ZWQyLTgyMGYtNzJjMmVmZTY2OTJjXkEyXkFqcGdeQXVyNzk3NDUzNTc@._V1_.jpg', 'title': 'The Falcon and the Winter Soldier', 'year': 2021}, {'id': 'tt1520211', 'image': 'https://m.media-amazon.com/images/M/MV5BMTc5ZmM0OTQtNDY4MS00ZjMyLTgwYzgtOGY0Y2VlMWFmNDU0XkEyXkFqcGdeQXVyNDIzMzcwNjc@._V1_.jpg', 'title': 'The Walking Dead', 'year': 2010}, {'id': 'tt7985576', 'image': 'https://m.media-amazon.com/images/M/MV5BY2U4ZTE1YTgtNmEzZi00N2E4LTk0MWItOTY3Y2RlNzliZTZjXkEyXkFqcGdeQXVyNjY1MTg4Mzc@._V1_.jpg', 'title': 'The Serpent', 'year': 2021}, {'id': 'tt5774002', 'image': 'https://m.media-amazon.com/images/M/MV5BMDU4MWViOGItZGJjYi00YjczLTk1YmMtY2ZmNmY4YTllNDA0XkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_.jpg', 'title': "Jupiter's Legacy", 'year': 2021}, {'id': 'tt6741278', 'image': 'https://m.media-amazon.com/images/M/MV5BMmE1ODVhMGYtODYyYS00Mjc4LWIzN2EtYWZkZDg1MTUyNDkxXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg', 'title': 'Invincible', 'year': 2021}]
+    # for show_id in top_tv_ids:
+    #     url = "https://imdb8.p.rapidapi.com/title/get-top-stripe"
+
+    #     querystring = {
+    #         "tconst": show_id,
+    #         "currentCountry": "US",
+    #         "purchaseCountry": "US"
+    #         }
+
+    #     headers = {
+    #         'x-rapidapi-key': "1ddf0a8da3msh877010e622bf74dp10873cjsnd762a292965a",
+    #         'x-rapidapi-host': "imdb8.p.rapidapi.com"
+    #         }
+
+    #     response = requests.request(
+    #         "GET",
+    #         url,
+    #         headers=headers,
+    #         params=querystring
+    #         )
+
+    #     tv_reply = response.json()
+    #     home_page_tv_data.append(
+    #         {
+    #             "id": tv_reply['title']['id'][7:-1],
+    #             "image": tv_reply['title']['image']['url'],
+    #             "title": tv_reply['title']['title'],
+    #             "year": tv_reply['title']['year']
+    #         })
+
     search_form = SearchForm()
-    context.update({'search_form': search_form, 'user': user})
+    context.update({
+        'search_form': search_form,
+        'user': user,
+        'home_page_movie_data': home_page_movie_data,
+        'homepage_tv_data': home_page_tv_data
+        })
     return render(request, 'homepage.html', context)
 
 
