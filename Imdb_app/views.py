@@ -5,6 +5,7 @@ from Imdb_app.models import ApplicationUser, Comment_model, LikedMoviesModel
 from Imdb_app.models import WantToSeeModel, HaveSeenModel
 from django.views import View
 from Imdb_app.helpers import check_model, check_model_x_api
+from Imdb_app.helpers import retrieve_movie_trailer_id
 from Imdb_app.api_search_call import search_bar, results_data
 import requests
 
@@ -238,9 +239,7 @@ def search_details_view(request):
     })
 
 
-# #########################################################################################################
-# Details page view where as of now it has dummy data but will
-# eventually be filled with actual data from api
+# Details page view
 def details_page(request, selection_id):
 
     # HEADER FORM SEARCH BAR REQUEST
@@ -258,7 +257,6 @@ def details_page(request, selection_id):
                 return redirect(reverse('actorspage'))
     # End of Form Search Request From Header
 
-
     app_user = ApplicationUser.objects.filter(username=request.user.username).first()
     liked = check_model(app_user, LikedMoviesModel, selection_id)
     seen = check_model(app_user, HaveSeenModel, selection_id)
@@ -273,7 +271,12 @@ def details_page(request, selection_id):
         'x-rapidapi-host': "imdb8.p.rapidapi.com"
     }
 
-    response = requests.request("GET", url, headers=headers, params=querystring)
+    response = requests.request(
+        "GET",
+        url,
+        headers=headers,
+        params=querystring
+        )
     reply_data = response.json()
     context = {}
     context.update({'reply_data': reply_data})
@@ -281,6 +284,11 @@ def details_page(request, selection_id):
     check_model_x_api(seen, context['reply_data'], 'seen_movie')
     check_model_x_api(want_to, context['reply_data'], 'want_to_see')
     print(context)
+
+    # FETCHES THE MOVIE TRAILER IF THERE IS ONE, SOMETIMES THERE ISNT A MATCH
+    movie_id = reply_data['d'][0]['id']
+    movie_trailer = retrieve_movie_trailer_id(movie_id)
+    # END TRAILER FETCH
 
     if request.method == 'POST':
         form = Comment_Form(request.POST)
@@ -301,11 +309,13 @@ def details_page(request, selection_id):
         {
             'form': form,
             'selection_id': selection_id,
-            'search_form': search_form
+            'search_form': search_form,
+            'trailer_link': movie_trailer[0],
+            'encode_type': movie_trailer[1]
         })
     return render(request, 'details_page.html', context)
 
-# ###########################################################################################################
+
 def login_view(request):
     context = {}
 
@@ -397,90 +407,111 @@ def ActorsView(request):
             })
     return render(request, 'actorspage.html', context)
 
-'''View To add Movie to likes'''
+
+# View To add Movie to likes
 def add_to_likes(request, id):
-    '''want to potentially check our other models if their is a movie linked with the user and then delete from other model instance and create new'''
+    '''want to potentially check our other models if their is a movie linked
+    with the user and then delete from other model instance and create new'''
     app_user = ApplicationUser.objects.filter(username=request.user.username).first()
     url = "https://imdb8.p.rapidapi.com/auto-complete"
 
-    querystring = {"q":id}
+    querystring = {"q": id}
 
     headers = {
         'x-rapidapi-key': "efd1846cd5msha44439c92dc4ef6p1277bdjsn8f5254945eb1",
         'x-rapidapi-host': "imdb8.p.rapidapi.com"
     }
 
-    response = requests.request("GET", url, headers=headers, params=querystring)
+    response = requests.request(
+        "GET",
+        url,
+        headers=headers,
+        params=querystring
+        )
+
     data = response.json()
     title = data['d'][0]['l']
     img = data['d'][0]['i']['imageUrl']
     year = data['d'][0]['y']
     LikedMoviesModel.objects.create(
-        movie_title = title,
-        movie_img = img,
-        movie_release = year,
-        movie_actors = data['d'][0]['s'],
-        movie_id = id,
-        user = app_user
+        movie_title=title,
+        movie_img=img,
+        movie_release=year,
+        movie_actors=data['d'][0]['s'],
+        movie_id=id,
+        user=app_user
     )
     return redirect(f'/details/{id}')
 
-'''View to add movie to want_to_see'''
-def want_to_see(request,id):
-    '''want to potentially check our other models if their is a movie linked with the user and then delete from other model instance and create new'''
+
+# View to add movie to want_to_see
+def want_to_see(request, id):
+    '''want to potentially check our other models if their is a movie linked
+    with the user and then delete from other model instance and create new'''
     app_user = ApplicationUser.objects.filter(username=request.user.username).first()
     url = "https://imdb8.p.rapidapi.com/auto-complete"
 
-    querystring = {"q":id}
+    querystring = {"q": id}
 
     headers = {
         'x-rapidapi-key': "efd1846cd5msha44439c92dc4ef6p1277bdjsn8f5254945eb1",
         'x-rapidapi-host': "imdb8.p.rapidapi.com"
     }
 
-    response = requests.request("GET", url, headers=headers, params=querystring)
+    response = requests.request(
+        "GET",
+        url,
+        headers=headers,
+        params=querystring
+        )
     data = response.json()
     title = data['d'][0]['l']
     img = data['d'][0]['i']['imageUrl']
     year = data['d'][0]['y']
     WantToSeeModel.objects.create(
-        movie_title = title,
-        movie_img = img,
-        movie_release = year,
-        movie_actors = data['d'][0]['s'],
-        movie_id = id,
-        user = app_user
+        movie_title=title,
+        movie_img=img,
+        movie_release=year,
+        movie_actors=data['d'][0]['s'],
+        movie_id=id,
+        user=app_user
     )
     return redirect(f'/details/{id}')
 
 
-'''View to add movei to have seen'''
-def movies_have_seen(request,id):
-    '''want to potentially check our other models if their is a movie linked with the user and then delete from other model instance and create new'''
+# View to add movei to have seen
+def movies_have_seen(request, id):
+    '''want to potentially check our other models if their is a movie linked
+    with the user and then delete from other model instance and create new'''
     app_user = ApplicationUser.objects.filter(username=request.user.username).first()
     want_to = check_model(app_user, WantToSeeModel, id)
-    if want_to != None:
+    if want_to is not None:
         WantToSeeModel.objects.filter(movie_id=want_to).first().delete()
     url = "https://imdb8.p.rapidapi.com/auto-complete"
 
-    querystring = {"q":id}
+    querystring = {"q": id}
 
     headers = {
         'x-rapidapi-key': "efd1846cd5msha44439c92dc4ef6p1277bdjsn8f5254945eb1",
         'x-rapidapi-host': "imdb8.p.rapidapi.com"
     }
 
-    response = requests.request("GET", url, headers=headers, params=querystring)
+    response = requests.request(
+        "GET",
+        url,
+        headers=headers,
+        params=querystring
+        )
     data = response.json()
     title = data['d'][0]['l']
     img = data['d'][0]['i']['imageUrl']
     year = data['d'][0]['y']
     HaveSeenModel.objects.create(
-        movie_title = title,
-        movie_img = img,
-        movie_release = year,
-        movie_actors = data['d'][0]['s'],
-        movie_id = id,
-        user = app_user
+        movie_title=title,
+        movie_img=img,
+        movie_release=year,
+        movie_actors=data['d'][0]['s'],
+        movie_id=id,
+        user=app_user
     )
     return redirect(f'/details/{id}')
