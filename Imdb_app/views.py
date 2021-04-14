@@ -205,8 +205,8 @@ def details_page(request, selection_id):
             'search_form': search_form,
             'trailer_link': movie_trailer[0],
             'encode_type': movie_trailer[1],
-            'comments' : comments,
-        }) 
+            'comments': comments,
+        })
     return render(request, 'details_page.html', context)
 
 
@@ -247,7 +247,7 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    return redirect(reverse('home'))
+    return redirect(reverse('login'))
 
 
 def ActorsView(request):
