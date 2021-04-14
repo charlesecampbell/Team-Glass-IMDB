@@ -319,6 +319,7 @@ def details_page(request, selection_id):
                 recommended=data['recommended']
             )
             print(new_item)
+    comments = Comment_model.objects.filter(movie_id=selection_id)
     form = Comment_Form()
     search_form = SearchForm()
     context.update(
@@ -327,8 +328,9 @@ def details_page(request, selection_id):
             'selection_id': selection_id,
             'search_form': search_form,
             'trailer_link': movie_trailer[0],
-            'encode_type': movie_trailer[1]
-        })
+            'encode_type': movie_trailer[1],
+            'comments' : comments,
+        }) 
     return render(request, 'details_page.html', context)
 
 
