@@ -6,7 +6,9 @@ from Imdb_app.models import WantToSeeModel, HaveSeenModel
 from django.views import View
 from Imdb_app.helpers import check_model, check_model_x_api
 from Imdb_app.helpers import retrieve_movie_trailer_id
-from Imdb_app.api_search_call import search_bar, results_data
+from Imdb_app.api_search_call import search_bar, results_data, top_movie_data
+from Imdb_app.api_search_call import top_tv_info
+from decouple import config
 import requests
 
 
@@ -18,11 +20,10 @@ def error_404(request, exception):
 def error_500(request):
     return render(request, "500.html")
 
+
 # Create your views here.
-
-
 def home_page_view(request):
-    comments = Comment_model.objects.all()
+    comments = Comment_model.objects.all().order_by('date_created').reverse()
     context = {}
     user = request.user
     # SEARCH FORM IN THE HEADER
@@ -54,145 +55,18 @@ def home_page_view(request):
                 return redirect(reverse('actorspage'))
     # END SEARCH FORM IN THE HEADER
 
-    # GET A TOP FIVE MOVIE LIST TITLE ID'S
-    # url = "https://imdb8.p.rapidapi.com/title/get-most-popular-movies"
+    # GETS TOP FIVE MOVIES
+    movie_data = top_movie_data()
 
-    # querystring = {
-    #     "homeCountry": "US",
-    #     "purchaseCountry": "US",
-    #     "currentCountry": "US"
-    #     }
+    # GETS TOP FIVE TV SHOWS
+    tv_data = top_tv_info()
 
-    # headers = {
-    #     'x-rapidapi-key': "1ddf0a8da3msh877010e622bf74dp10873cjsnd762a292965a",
-    #     'x-rapidapi-host': "imdb8.p.rapidapi.com"
-    #     }
-
-    # response = requests.request(
-    #     "GET",
-    #     url,
-    #     headers=headers,
-    #     params=querystring
-    #     )
-
-    # reply = response.json()
-    # top_five_list = []
-    # count = 0
-    # for title_id in reply:
-    #     if count < 5:
-    #         top_five_list.append(title_id[7:-1])
-    #         count += 1
-
-    # USE TITLE ID'S TO GET MOVIE INFO
-    home_page_movie_data = [{'id': 'tt5034838', 'image': 'https://m.media-amazon.com/images/M/MV5BZmYzMzU4NjctNDI0Mi00MGExLWI3ZDQtYzQzYThmYzc2ZmNjXkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_.jpg', 'title': 'Godzilla vs. Kong', 'year': 2021}, {'id': 'tt3480822', 'image': 'https://m.media-amazon.com/images/M/MV5BYjdmODAzNTctNWU1NS00ZmRiLWFiM2YtMjAyNzgzZWJlZjhlXkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_.jpg', 'title': 'Black Widow', 'year': 2021}, {'id': 'tt12361974', 'image': 'https://m.media-amazon.com/images/M/MV5BYjI3NDg0ZTEtMDEwYS00YWMyLThjYjktMTNlM2NmYjc1OGRiXkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_.jpg', 'title': "Zack Snyder's Justice League", 'year': 2021}, {'id': 'tt0293429', 'image': 'https://m.media-amazon.com/images/M/MV5BY2ZlNWIxODMtN2YwZi00ZjNmLWIyN2UtZTFkYmZkNDQyNTAyXkEyXkFqcGdeQXVyODkzNTgxMDg@._V1_.jpg', 'title': 'Mortal Kombat', 'year': 2021}, {'id': 'tt3554046', 'image': 'https://m.media-amazon.com/images/M/MV5BNjg3NmUwYjctMmIzYS00ZTNiLTlhNTYtMWMxNzE5YWIzNmQ4XkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg', 'title': 'Space Jam: A New Legacy', 'year': 2021}]
-    # for movie in top_five_list:
-    #     url = "https://imdb8.p.rapidapi.com/title/get-top-stripe"
-
-    #     querystring = {
-    #         "tconst": movie,
-    #         "currentCountry": "US",
-    #         "purchaseCountry": "US"
-    #         }
-
-    #     headers = {
-    #         'x-rapidapi-key': "1ddf0a8da3msh877010e622bf74dp10873cjsnd762a292965a",
-    #         'x-rapidapi-host': "imdb8.p.rapidapi.com"
-    #     }
-
-    #     response = requests.request(
-    #         "GET",
-    #         url,
-    #         headers=headers,
-    #         params=querystring
-    #         )
-
-    #     top_reply = response.json()
-    #     home_page_movie_data.append(
-    #         {
-    #             "id": top_reply['title']['id'][7:-1],
-    #             "image": top_reply['title']['image']['url'],
-    #             "title": top_reply['title']['title'],
-    #             "year": top_reply['title']['year']
-    #         })
-    # print(home_page_movie_data)
-
-    # GET TOP 5 TV IDS
-    # url = "https://imdb8.p.rapidapi.com/title/get-most-popular-tv-shows"
-
-    # querystring = {"homeCountry": "US", "purchaseCountry": "US", "currentCountry": "US"}
-
-    # headers = {
-    #     'x-rapidapi-key': "1ddf0a8da3msh877010e622bf74dp10873cjsnd762a292965a",
-    #     'x-rapidapi-host': "imdb8.p.rapidapi.com"
-    #     }
-
-    # response = requests.request(
-    #     "GET",
-    #     url, headers=headers,
-    #     params=querystring
-    #     )
-
-    # reply = response.json()
-    # top_tv_ids = []
-    # count2 = 0
-    # for id in reply:
-    #     if count2 < 5:
-    #         top_tv_ids.append(id[7:-1])
-    #         count2 += 1
-    # print(top_tv_ids)
-
-    # REQUEST TO GET THE TOP 5 TV INFO
-    home_page_tv_data = [{'id': 'tt9208876', 'image': 'https://m.media-amazon.com/images/M/MV5BODNiODVmYjItM2MyMC00ZWQyLTgyMGYtNzJjMmVmZTY2OTJjXkEyXkFqcGdeQXVyNzk3NDUzNTc@._V1_.jpg', 'title': 'The Falcon and the Winter Soldier', 'year': 2021}, {'id': 'tt1520211', 'image': 'https://m.media-amazon.com/images/M/MV5BMTc5ZmM0OTQtNDY4MS00ZjMyLTgwYzgtOGY0Y2VlMWFmNDU0XkEyXkFqcGdeQXVyNDIzMzcwNjc@._V1_.jpg', 'title': 'The Walking Dead', 'year': 2010}, {'id': 'tt7985576', 'image': 'https://m.media-amazon.com/images/M/MV5BY2U4ZTE1YTgtNmEzZi00N2E4LTk0MWItOTY3Y2RlNzliZTZjXkEyXkFqcGdeQXVyNjY1MTg4Mzc@._V1_.jpg', 'title': 'The Serpent', 'year': 2021}, {'id': 'tt5774002', 'image': 'https://m.media-amazon.com/images/M/MV5BMDU4MWViOGItZGJjYi00YjczLTk1YmMtY2ZmNmY4YTllNDA0XkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_.jpg', 'title': "Jupiter's Legacy", 'year': 2021}, {'id': 'tt6741278', 'image': 'https://m.media-amazon.com/images/M/MV5BMmE1ODVhMGYtODYyYS00Mjc4LWIzN2EtYWZkZDg1MTUyNDkxXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg', 'title': 'Invincible', 'year': 2021}]
-    # for show_id in top_tv_ids:
-    #     url = "https://imdb8.p.rapidapi.com/title/get-top-stripe"
-
-    #     querystring = {
-    #         "tconst": show_id,
-    #         "currentCountry": "US",
-    #         "purchaseCountry": "US"
-    #         }
-
-    #     headers = {
-    #         'x-rapidapi-key': "1ddf0a8da3msh877010e622bf74dp10873cjsnd762a292965a",
-    #         'x-rapidapi-host': "imdb8.p.rapidapi.com"
-    #         }
-
-    #     response = requests.request(
-    #         "GET",
-    #         url,
-    #         headers=headers,
-    #         params=querystring
-    #         )
-
-    #     tv_reply = response.json()
-    #     home_page_tv_data.append(
-    #         {
-    #             "id": tv_reply['title']['id'][7:-1],
-    #             "image": tv_reply['title']['image']['url'],
-    #             "title": tv_reply['title']['title'],
-    #             "year": tv_reply['title']['year']
-    #         })
-
-    # recent_comments = []
-    # count = 0
-    # for comment in comments:
-    #     if count < 20:
-    #         recent_comments.append({
-    #             'comment': comments.input_field,
-    #             'poster': comments.movie_image,
-    #             'title': comments.movie_title,
-    #             'commenter': comments.commenter,
-    #             'movie_id': comments.movie_id,
-    #             'date_created': comments.date_created
-    #         })
-    #         count += 1
-    # print(recent_comments)
     search_form = SearchForm()
     context.update({
         'search_form': search_form,
         'user': user,
-        'home_page_movie_data': home_page_movie_data,
-        'homepage_tv_data': home_page_tv_data,
+        'home_page_movie_data': movie_data,
+        'homepage_tv_data': tv_data,
         'comments': comments
         })
     return render(request, 'homepage.html', context)
@@ -273,7 +147,9 @@ def details_page(request, selection_id):
                 return redirect(reverse('actorspage'))
     # End of Form Search Request From Header
 
-    app_user = ApplicationUser.objects.filter(username=request.user.username).first()
+    app_user = ApplicationUser.objects.filter(
+        username=request.user.username).first()
+
     liked = check_model(app_user, LikedMoviesModel, selection_id)
     seen = check_model(app_user, HaveSeenModel, selection_id)
     want_to = check_model(app_user, WantToSeeModel, selection_id)
@@ -283,7 +159,7 @@ def details_page(request, selection_id):
     querystring = {"q": selection_id}
 
     headers = {
-        'x-rapidapi-key': "efd1846cd5msha44439c92dc4ef6p1277bdjsn8f5254945eb1",
+        'x-rapidapi-key': config('MAIN_IMDB_KEY'),
         'x-rapidapi-host': "imdb8.p.rapidapi.com"
     }
 
@@ -399,7 +275,7 @@ def ActorsView(request):
     querystring = {"nconst": search_id}
 
     headers = {
-        'x-rapidapi-key': "a3d8d2b4e0msh9912babc2875bfcp1e811cjsn1489c4504884",
+        'x-rapidapi-key': config('MAIN_IMDB_KEY'),
         'x-rapidapi-host': "imdb8.p.rapidapi.com"
     }
 
@@ -428,13 +304,15 @@ def ActorsView(request):
 def add_to_likes(request, id):
     '''want to potentially check our other models if their is a movie linked
     with the user and then delete from other model instance and create new'''
-    app_user = ApplicationUser.objects.filter(username=request.user.username).first()
+    app_user = ApplicationUser.objects.filter(
+        username=request.user.username).first()
+
     url = "https://imdb8.p.rapidapi.com/auto-complete"
 
     querystring = {"q": id}
 
     headers = {
-        'x-rapidapi-key': "efd1846cd5msha44439c92dc4ef6p1277bdjsn8f5254945eb1",
+        'x-rapidapi-key': config('MAIN_IMDB_KEY'),
         'x-rapidapi-host': "imdb8.p.rapidapi.com"
     }
 
@@ -464,13 +342,15 @@ def add_to_likes(request, id):
 def want_to_see(request, id):
     '''want to potentially check our other models if their is a movie linked
     with the user and then delete from other model instance and create new'''
-    app_user = ApplicationUser.objects.filter(username=request.user.username).first()
+    app_user = ApplicationUser.objects.filter(
+        username=request.user.username).first()
+
     url = "https://imdb8.p.rapidapi.com/auto-complete"
 
     querystring = {"q": id}
 
     headers = {
-        'x-rapidapi-key': "efd1846cd5msha44439c92dc4ef6p1277bdjsn8f5254945eb1",
+        'x-rapidapi-key': config('MAIN_IMDB_KEY'),
         'x-rapidapi-host': "imdb8.p.rapidapi.com"
     }
 
@@ -499,7 +379,9 @@ def want_to_see(request, id):
 def movies_have_seen(request, id):
     '''want to potentially check our other models if their is a movie linked
     with the user and then delete from other model instance and create new'''
-    app_user = ApplicationUser.objects.filter(username=request.user.username).first()
+    app_user = ApplicationUser.objects.filter(
+        username=request.user.username).first()
+
     want_to = check_model(app_user, WantToSeeModel, id)
     if want_to is not None:
         WantToSeeModel.objects.filter(movie_id=want_to).first().delete()
@@ -508,7 +390,7 @@ def movies_have_seen(request, id):
     querystring = {"q": id}
 
     headers = {
-        'x-rapidapi-key': "efd1846cd5msha44439c92dc4ef6p1277bdjsn8f5254945eb1",
+        'x-rapidapi-key': config('MAIN_IMDB_KEY'),
         'x-rapidapi-host': "imdb8.p.rapidapi.com"
     }
 
