@@ -121,7 +121,6 @@ def top_movie_data():
                 "title": top_reply['title']['title'],
                 "year": top_reply['title']['year']
             })
-    print(home_page_movie_data)
     return home_page_movie_data
 
 
@@ -153,7 +152,6 @@ def top_tv_ids():
         if count2 < 5:
             top_tv_ids.append(id[7:-1])
             count2 += 1
-    print(top_tv_ids)
     return top_tv_ids
 
 
@@ -190,4 +188,27 @@ def top_tv_info():
                 "title": tv_reply['title']['title'],
                 "year": tv_reply['title']['year']
             })
+    print(home_page_tv_data)
     return home_page_tv_data
+
+
+def hollywood_news():
+    # GETS HOLLYWOOD NEWS
+    url = "https://imdb8.p.rapidapi.com/title/get-news"
+
+    querystring = {"tconst": "tt13429362", "limit": "25"}
+
+    headers = {
+        'x-rapidapi-key': "1ddf0a8da3msh877010e622bf74dp10873cjsnd762a292965a",
+        'x-rapidapi-host': "imdb8.p.rapidapi.com"
+        }
+
+    response = requests.request(
+        "GET",
+        url,
+        headers=headers,
+        params=querystring
+        )
+
+    reply = response.json()
+    return reply['items']
