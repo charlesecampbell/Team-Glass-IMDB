@@ -4,6 +4,7 @@ from Imdb_app.forms import SearchForm, SignupForm, Comment_Form, LoginForm
 from Imdb_app.models import ApplicationUser, Comment_model, LikedMoviesModel
 from Imdb_app.models import WantToSeeModel, HaveSeenModel
 from django.views import View
+from django.views.generic.base import TemplateView
 from Imdb_app.helpers import check_model, check_model_x_api
 from Imdb_app.helpers import retrieve_movie_trailer_id
 from Imdb_app.api_search_call import search_bar, results_data
@@ -84,7 +85,8 @@ def home_page_view(request):
     #         count += 1
 
     # USE TITLE ID'S TO GET MOVIE INFO
-    home_page_movie_data = [{'id': 'tt5034838', 'image': 'https://m.media-amazon.com/images/M/MV5BZmYzMzU4NjctNDI0Mi00MGExLWI3ZDQtYzQzYThmYzc2ZmNjXkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_.jpg', 'title': 'Godzilla vs. Kong', 'year': 2021}, {'id': 'tt3480822', 'image': 'https://m.media-amazon.com/images/M/MV5BYjdmODAzNTctNWU1NS00ZmRiLWFiM2YtMjAyNzgzZWJlZjhlXkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_.jpg', 'title': 'Black Widow', 'year': 2021}, {'id': 'tt12361974', 'image': 'https://m.media-amazon.com/images/M/MV5BYjI3NDg0ZTEtMDEwYS00YWMyLThjYjktMTNlM2NmYjc1OGRiXkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_.jpg', 'title': "Zack Snyder's Justice League", 'year': 2021}, {'id': 'tt0293429', 'image': 'https://m.media-amazon.com/images/M/MV5BY2ZlNWIxODMtN2YwZi00ZjNmLWIyN2UtZTFkYmZkNDQyNTAyXkEyXkFqcGdeQXVyODkzNTgxMDg@._V1_.jpg', 'title': 'Mortal Kombat', 'year': 2021}, {'id': 'tt3554046', 'image': 'https://m.media-amazon.com/images/M/MV5BNjg3NmUwYjctMmIzYS00ZTNiLTlhNTYtMWMxNzE5YWIzNmQ4XkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg', 'title': 'Space Jam: A New Legacy', 'year': 2021}]
+    home_page_movie_data = [{'id': 'tt5034838', 'image': 'https://m.media-amazon.com/images/M/MV5BZmYzMzU4NjctNDI0Mi00MGExLWI3ZDQtYzQzYThmYzc2ZmNjXkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_.jpg', 'title': 'Godzilla vs. Kong', 'year': 2021}, {'id': 'tt3480822', 'image': 'https://m.media-amazon.com/images/M/MV5BYjdmODAzNTctNWU1NS00ZmRiLWFiM2YtMjAyNzgzZWJlZjhlXkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_.jpg', 'title': 'Black Widow', 'year': 2021}, {'id': 'tt12361974', 'image': 'https://m.media-amazon.com/images/M/MV5BYjI3NDg0ZTEtMDEwYS00YWMyLThjYjktMTNlM2NmYjc1OGRiXkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_.jpg',
+                                                                                                                                                                                                                                                                                                                                                                                                                                             'title': "Zack Snyder's Justice League", 'year': 2021}, {'id': 'tt0293429', 'image': 'https://m.media-amazon.com/images/M/MV5BY2ZlNWIxODMtN2YwZi00ZjNmLWIyN2UtZTFkYmZkNDQyNTAyXkEyXkFqcGdeQXVyODkzNTgxMDg@._V1_.jpg', 'title': 'Mortal Kombat', 'year': 2021}, {'id': 'tt3554046', 'image': 'https://m.media-amazon.com/images/M/MV5BNjg3NmUwYjctMmIzYS00ZTNiLTlhNTYtMWMxNzE5YWIzNmQ4XkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg', 'title': 'Space Jam: A New Legacy', 'year': 2021}]
     # for movie in top_five_list:
     #     url = "https://imdb8.p.rapidapi.com/title/get-top-stripe"
 
@@ -142,7 +144,8 @@ def home_page_view(request):
     # print(top_tv_ids)
 
     # REQUEST TO GET THE TOP 5 TV INFO
-    home_page_tv_data = [{'id': 'tt9208876', 'image': 'https://m.media-amazon.com/images/M/MV5BODNiODVmYjItM2MyMC00ZWQyLTgyMGYtNzJjMmVmZTY2OTJjXkEyXkFqcGdeQXVyNzk3NDUzNTc@._V1_.jpg', 'title': 'The Falcon and the Winter Soldier', 'year': 2021}, {'id': 'tt1520211', 'image': 'https://m.media-amazon.com/images/M/MV5BMTc5ZmM0OTQtNDY4MS00ZjMyLTgwYzgtOGY0Y2VlMWFmNDU0XkEyXkFqcGdeQXVyNDIzMzcwNjc@._V1_.jpg', 'title': 'The Walking Dead', 'year': 2010}, {'id': 'tt7985576', 'image': 'https://m.media-amazon.com/images/M/MV5BY2U4ZTE1YTgtNmEzZi00N2E4LTk0MWItOTY3Y2RlNzliZTZjXkEyXkFqcGdeQXVyNjY1MTg4Mzc@._V1_.jpg', 'title': 'The Serpent', 'year': 2021}, {'id': 'tt5774002', 'image': 'https://m.media-amazon.com/images/M/MV5BMDU4MWViOGItZGJjYi00YjczLTk1YmMtY2ZmNmY4YTllNDA0XkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_.jpg', 'title': "Jupiter's Legacy", 'year': 2021}, {'id': 'tt6741278', 'image': 'https://m.media-amazon.com/images/M/MV5BMmE1ODVhMGYtODYyYS00Mjc4LWIzN2EtYWZkZDg1MTUyNDkxXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg', 'title': 'Invincible', 'year': 2021}]
+    home_page_tv_data = [{'id': 'tt9208876', 'image': 'https://m.media-amazon.com/images/M/MV5BODNiODVmYjItM2MyMC00ZWQyLTgyMGYtNzJjMmVmZTY2OTJjXkEyXkFqcGdeQXVyNzk3NDUzNTc@._V1_.jpg', 'title': 'The Falcon and the Winter Soldier', 'year': 2021}, {'id': 'tt1520211', 'image': 'https://m.media-amazon.com/images/M/MV5BMTc5ZmM0OTQtNDY4MS00ZjMyLTgwYzgtOGY0Y2VlMWFmNDU0XkEyXkFqcGdeQXVyNDIzMzcwNjc@._V1_.jpg', 'title': 'The Walking Dead', 'year': 2010}, {'id': 'tt7985576',
+                                                                                                                                                                                                                                                                                                                                                                                                                                                               'image': 'https://m.media-amazon.com/images/M/MV5BY2U4ZTE1YTgtNmEzZi00N2E4LTk0MWItOTY3Y2RlNzliZTZjXkEyXkFqcGdeQXVyNjY1MTg4Mzc@._V1_.jpg', 'title': 'The Serpent', 'year': 2021}, {'id': 'tt5774002', 'image': 'https://m.media-amazon.com/images/M/MV5BMDU4MWViOGItZGJjYi00YjczLTk1YmMtY2ZmNmY4YTllNDA0XkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_.jpg', 'title': "Jupiter's Legacy", 'year': 2021}, {'id': 'tt6741278', 'image': 'https://m.media-amazon.com/images/M/MV5BMmE1ODVhMGYtODYyYS00Mjc4LWIzN2EtYWZkZDg1MTUyNDkxXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg', 'title': 'Invincible', 'year': 2021}]
     # for show_id in top_tv_ids:
     #     url = "https://imdb8.p.rapidapi.com/title/get-top-stripe"
 
@@ -194,7 +197,7 @@ def home_page_view(request):
         'home_page_movie_data': home_page_movie_data,
         'homepage_tv_data': home_page_tv_data,
         'comments': comments
-        })
+    })
     return render(request, 'homepage.html', context)
 
 
@@ -273,7 +276,8 @@ def details_page(request, selection_id):
                 return redirect(reverse('actorspage'))
     # End of Form Search Request From Header
 
-    app_user = ApplicationUser.objects.filter(username=request.user.username).first()
+    app_user = ApplicationUser.objects.filter(
+        username=request.user.username).first()
     liked = check_model(app_user, LikedMoviesModel, selection_id)
     seen = check_model(app_user, HaveSeenModel, selection_id)
     want_to = check_model(app_user, WantToSeeModel, selection_id)
@@ -292,7 +296,7 @@ def details_page(request, selection_id):
         url,
         headers=headers,
         params=querystring
-        )
+    )
     reply_data = response.json()
     context = {}
     context.update({'reply_data': reply_data})
@@ -330,6 +334,24 @@ def details_page(request, selection_id):
             'encode_type': movie_trailer[1]
         })
     return render(request, 'details_page.html', context)
+
+
+class UserProfileView(TemplateView):
+
+    template_name = "userprofile.html"
+
+    def get_context_data(self, applicationuser_id):
+        context = super().get_context_data()
+        context['haveseen'] = HaveSeenModel.objects.all().filter(
+            user=applicationuser_id)
+        context['wanttosee'] = WantToSeeModel.objects.all().filter(
+            user=applicationuser_id
+        )
+        context['comments'] = Comment_model.objects.all().filter(
+            commenter=applicationuser_id
+        )
+        context['search'] = SearchForm()
+        return context
 
 
 def login_view(request):
@@ -420,7 +442,7 @@ def ActorsView(request):
             'imageArray': imageArray,
             'movie_info': movie_info,
             'search_form': search_form
-            })
+        })
     return render(request, 'actorspage.html', context)
 
 
@@ -428,7 +450,8 @@ def ActorsView(request):
 def add_to_likes(request, id):
     '''want to potentially check our other models if their is a movie linked
     with the user and then delete from other model instance and create new'''
-    app_user = ApplicationUser.objects.filter(username=request.user.username).first()
+    app_user = ApplicationUser.objects.filter(
+        username=request.user.username).first()
     url = "https://imdb8.p.rapidapi.com/auto-complete"
 
     querystring = {"q": id}
@@ -443,7 +466,7 @@ def add_to_likes(request, id):
         url,
         headers=headers,
         params=querystring
-        )
+    )
 
     data = response.json()
     title = data['d'][0]['l']
@@ -464,7 +487,8 @@ def add_to_likes(request, id):
 def want_to_see(request, id):
     '''want to potentially check our other models if their is a movie linked
     with the user and then delete from other model instance and create new'''
-    app_user = ApplicationUser.objects.filter(username=request.user.username).first()
+    app_user = ApplicationUser.objects.filter(
+        username=request.user.username).first()
     url = "https://imdb8.p.rapidapi.com/auto-complete"
 
     querystring = {"q": id}
@@ -479,7 +503,7 @@ def want_to_see(request, id):
         url,
         headers=headers,
         params=querystring
-        )
+    )
     data = response.json()
     title = data['d'][0]['l']
     img = data['d'][0]['i']['imageUrl']
@@ -499,7 +523,8 @@ def want_to_see(request, id):
 def movies_have_seen(request, id):
     '''want to potentially check our other models if their is a movie linked
     with the user and then delete from other model instance and create new'''
-    app_user = ApplicationUser.objects.filter(username=request.user.username).first()
+    app_user = ApplicationUser.objects.filter(
+        username=request.user.username).first()
     want_to = check_model(app_user, WantToSeeModel, id)
     if want_to is not None:
         WantToSeeModel.objects.filter(movie_id=want_to).first().delete()
@@ -517,7 +542,7 @@ def movies_have_seen(request, id):
         url,
         headers=headers,
         params=querystring
-        )
+    )
     data = response.json()
     title = data['d'][0]['l']
     img = data['d'][0]['i']['imageUrl']
