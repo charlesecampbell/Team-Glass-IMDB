@@ -1,17 +1,22 @@
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap');
     #headerHolder {
         display: flex;
         justify-content: center;
         align-items: center;
         justify-content: space-around;
         height: 75px;
-        background-color: rgb(82, 145, 125);
+        background-color: rgb(60, 221, 170);
+    }
+
+    #form {
+        font-family: 'Oswald', sans-serif;
     }
 
     #signupLogin {
         display: flex;
-        flex-direction: column;
         align-items: center;
+        font-family: 'Oswald', sans-serif;
     }
 
     #username {
@@ -28,26 +33,39 @@
     }
 
     #logo {
+        font-family: 'Oswald', sans-serif;
+        color: black;
+    }
+
+    #login {
+        color: black;
+    }
+
+    #signup {
+        color: black;
+    }
+
+    #user {
         color: black;
     }
 </style>
 <div id=headerHolder>
     {% if request.user.is_authenticated %}
     <div id='signupLogin'>
-        <h2 id='username'>Welcome <a href="/user/{{request.user.id}}/">{{request.user.display_name}}</a></h2>
+        <h2 id='username'><a href="/user/{{request.user.id}}/" id='user'>{{request.user.display_name}}'s Profile</a>  / </h2>
         <a href='/logout/'>
-            <h2 id='logout'>Logout</h2>
+            <h2 id='logout'>  Logout</h2>
         </a>
     </div>
     {% else %}
     <div id='signupLogin'>
-        <a href='/signup/'>Sign Up</a>
-        <a href='/login/'>Login</a>
+        <a href='/signup/' id='signup'>Sign Up / </a>
+        <a href='/login/' id='login'> Login</a>
     </div>
     {% endif %}
     <div id='logoName'>
         <a href='/'>
-            <h1 id='logo'>ImdB</h1>
+            <h1 id='logo'>GLASS IMDb</h1>
         </a>
     </div>
     <div id='formHolder'>

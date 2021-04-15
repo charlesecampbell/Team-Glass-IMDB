@@ -48,7 +48,7 @@ def home_page_view(request):
 
             # This allows access to the data to be used in different views
             # (see search_details_view to see how to call it)
-            request.session['movie_info'] = movie_info
+            request.session['movie_info'] = (movie_info)
             # This directs the search results to the correct page
             if page_decision != 'nm':
                 return redirect(reverse('search_details'))
@@ -108,7 +108,6 @@ class SignupView(View):
 def search_details_view(request):
     # Gets the info collected from the api request
     movie_info = request.session.get('movie_info')
-
     # Same as in the home page view this should go in every view as
     # it controls the header search bar
     if request.method == 'POST':
@@ -217,6 +216,7 @@ class UserProfileView(TemplateView):
     template_name = "userprofile.html"
 
     def get_context_data(self, applicationuser_id):
+
         context = super().get_context_data()
         context['haveseen'] = HaveSeenModel.objects.all().filter(
             user=applicationuser_id)

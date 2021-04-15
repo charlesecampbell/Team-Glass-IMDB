@@ -1,5 +1,7 @@
 import requests
 from decouple import config
+from Imdb_app.forms import SearchForm
+from django.shortcuts import redirect, reverse
 
 
 def search_bar(query):
@@ -17,6 +19,22 @@ def search_bar(query):
 
     reply = response.json()
     return reply
+
+
+def search_bar_request(request):
+    if request.method == 'POST':
+        search_form = SearchForm(request.POST)
+        if search_form.is_valid():
+            data = search_form.cleaned_data
+            print(data['search_actors_or_movies'])
+            reply = search_bar(data['search_actors_or_movies'])
+            page_decision = reply['d'][0]['id'][:2]
+            movie_info = results_data(reply)
+            request.session['movie_info'] = movie_info
+            if page_decision != 'nm':
+                return redirect(reverse('search_details'))
+            else:
+                return redirect(reverse('actorspage'))
 
 
 def results_data(reply):
