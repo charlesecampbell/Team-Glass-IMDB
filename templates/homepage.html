@@ -1,4 +1,10 @@
 <style>
+    #wholePage {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
     body {
         background-color: black;
     }
@@ -96,31 +102,35 @@
         align-items: center;
         background-color: white;
         height: 300px;
-        overflow: scroll;
-        max-width: 265px;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        width: 1100px;
         margin: 30px 0 30px 0;
     }
 
     .commentHolder {
         display: flex;
-        flex-direction: column;
         align-items: center;
+        justify-content: space-around;
         background-color: rgb(124, 218, 189);
         margin: 5px 5px 5px 5px;
-        width: 250px;
+        width: 1100px;
     }
 
     .cmPoster {
         max-width: 75px;
+        margin: 10px 0 10px 0;
     }
 
     .cmTitle {
         text-align: center;
+        margin: 10 0 0 0;
     }
 
     .cmDateHolder {
         display: flex;
         justify-content: space-around;
+        margin: 0 0 10px 0;
 
     }
 
@@ -131,57 +141,64 @@
     .cmCommenter {
         margin: 0 5px 0 0;
     }
+
+    .cmDetails {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 800px;
+    }
 </style>
 {% extends 'base_header.html' %}
 
 {% block content %}
-<div id='topHolder'>
-    <div id='topFiveHolder'>
-        <h2 id='topFiveTitle'>CURRENT TOP FIVE MOVIES</h2>
-        <div id='topFiveMovieHolder'>
-            {% for movie in home_page_movie_data %}
-            <div class='movieInTopFive'>
-                <h2 class='movieTitle'>{{movie.title}}</h2>
-                <a href='/details/{{movie.id}}/'><img class='moviePoster' src={{movie.image}} alt={{movie.title}} /></a>
-                <h2 class='movieYear'>{{movie.year}}</h2>
+<div id='wholePage'>
+    <div id='topHolder'>
+        <div id='topFiveHolder'>
+            <h2 id='topFiveTitle'>CURRENT TOP FIVE MOVIES</h2>
+            <div id='topFiveMovieHolder'>
+                {% for movie in home_page_movie_data %}
+                <div class='movieInTopFive'>
+                    <h2 class='movieTitle'>{{movie.title}}</h2>
+                    <a href='/details/{{movie.id}}/'><img class='moviePoster' src={{movie.image}}
+                            alt={{movie.title}} /></a>
+                    <h2 class='movieYear'>{{movie.year}}</h2>
+                </div>
+                {% endfor %}
             </div>
-            {% endfor %}
         </div>
-    </div>
 
-    <div id='topFiveTvHolder'>
-        <h2 id='topFiveTvTitle'>CURRENT TOP FIVE TV SHOWS</h2>
-        <div id='topFiveTvListHolder'>
-            {% for show in homepage_tv_data %}
-            <div class='topFiveTvHolder2'>
-                <h2 class='tvTitle'>{{show.title}}</h2>
-                <a href='/details/{{show.id}}/'><img class='topTvPoster' src={{show.image}} alt={{show.title}} /></a>
-                <h2 class="tvYear">{{show.year}}</h2>
+        <div id='topFiveTvHolder'>
+            <h2 id='topFiveTvTitle'>CURRENT TOP FIVE TV SHOWS</h2>
+            <div id='topFiveTvListHolder'>
+                {% for show in homepage_tv_data %}
+                <div class='topFiveTvHolder2'>
+                    <h2 class='tvTitle'>{{show.title}}</h2>
+                    <a href='/details/{{show.id}}/'><img class='topTvPoster' src={{show.image}}
+                            alt={{show.title}} /></a>
+                    <h2 class="tvYear">{{show.year}}</h2>
+                </div>
+                {% endfor %}
             </div>
-            {% endfor %}
         </div>
     </div>
-</div>
-<div id='comments'>
-    <h2 id='cmHeader'>RECENT COMMENTS</h2>
-    {% for comment in comments %}
-    <div class='commentHolder'>
-        <h3 class="cmTitle">{{comment.movie_title}}</h3>
-        <a href="details/{{comment.movie_id}}/"><img src={{comment.movie_image}} class='cmPoster'
-                alt={{comment.movie_title}} /></a>
-        <h4 class='cmComment'>{{comment.input_field}}</h4>
-        <div class='cmDateHolder'>
-            <h5 class='cmCommenter'>By: {{comment.commenter}}</h5>
-            <h5 class='cmDate'>{{comment.date_created}}</h5>
+    <div id='comments'>
+        <h2 id='cmHeader'>RECENT COMMENTS</h2>
+        {% for comment in comments %}
+        <div class='commentHolder'>
+            <a href="details/{{comment.movie_id}}/"><img src={{comment.movie_image}} class='cmPoster'
+                    alt={{comment.movie_title}} /></a>
+            <div class="cmDetails">
+                <h3 class="cmTitle">{{comment.movie_title}}</h3>
+                <h4 class='cmComment'>{{comment.input_field}}</h4>
+                <div class='cmDateHolder'>
+                    <h5 class='cmCommenter'>By: {{comment.commenter}}</h5>
+                    <h5 class='cmDate'>{{comment.date_created}}</h5>
+                </div>
+            </div>
         </div>
     </div>
     {% endfor %}
 </div>
+</div>
 {% endblock %}
-
-'comment': comments.input_field,
-# 'poster': comments.movie_image,
-# 'title': comments.movie_title,
-# 'commenter': comments.commenter,
-# 'movie_id': comments.movie_id,
-# 'date_created': comments.date_created

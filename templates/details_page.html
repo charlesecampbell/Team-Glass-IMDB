@@ -50,4 +50,12 @@ You've Seen This Movie
     <input type='submit' value="submit"/>
 </form>
 {% endif %}
+<hr>
+{% for item in comments %}
+<h4>{{item.commenter}}</h4>
+<p>{{item.movie_title}}</p>
+<p>{{item.input_field}}</p>
+<p>{{item.date_created}}</p>
+<p>{{item.recommended}}</p>
+{% endfor %}
 {% endblock %}

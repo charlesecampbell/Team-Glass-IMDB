@@ -1,4 +1,5 @@
 import requests
+from decouple import config
 
 
 def check_model(user, model, id):
@@ -26,7 +27,7 @@ def retrieve_movie_trailer(id):
     querystring = {"viconst": id, "region": "US"}
 
     headers = {
-        'x-rapidapi-key': "1ddf0a8da3msh877010e622bf74dp10873cjsnd762a292965a",
+        'x-rapidapi-key': config('MAIN_IMDB_KEY'),
         'x-rapidapi-host': "imdb8.p.rapidapi.com"
         }
 
@@ -50,7 +51,7 @@ def retrieve_movie_trailer_id(id):
     querystring = {"tconst": id, "limit": "25", "region": "US"}
 
     headers = {
-        'x-rapidapi-key': "1ddf0a8da3msh877010e622bf74dp10873cjsnd762a292965a",
+        'x-rapidapi-key': config('MAIN_IMDB_KEY'),
         'x-rapidapi-host': "imdb8.p.rapidapi.com"
         }
 
