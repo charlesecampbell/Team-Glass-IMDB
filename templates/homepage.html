@@ -1,4 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Glass Imdb</title>
+</head>
+
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap');
 
     #wholePage {
         display: flex;
@@ -160,7 +171,7 @@
     }
 
     #newsTitle {
-        background-color: white;
+        font-family: 'Oswald', sans-serif;
     }
 
     .singleArticle {
@@ -180,11 +191,13 @@
     }
 
     #topFiveTitle {
+        font-family: 'Oswald', sans-serif;
         color: white;
         margin: 15px 0 5px 0;
     }
 
     #topFiveTvTitle {
+        font-family: 'Oswald', sans-serif;
         color: white;
         margin: 35px 0 5px 0;
     }
@@ -196,13 +209,21 @@
         margin: 0 5px 0 0;
     }
 
+    .searchBar {
+        width: 200px;
+    }
+
+    #cmHeader {
+        font-family: 'Oswald', sans-serif;
+    }
+
 </style>
 {% extends 'base_header.html' %}
 
 {% block content %}
 <div id='wholePage'>
     <div id='newsHolder'>
-        <h2 id='newsTitle'>TOP NEWS</h2>
+        <h2 id='newsTitle'>TOP HOLLYWOOD NEWS</h2>
         {% for article in top_news %}
             <div class="singleArticle">
                 <img class='articleImage' src={{article.image.url}} />

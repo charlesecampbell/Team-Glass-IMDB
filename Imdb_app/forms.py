@@ -23,7 +23,13 @@ class Comment_Form(forms.ModelForm):
 
 
 class SearchForm(forms.Form):
-    search_actors_or_movies = forms.CharField(max_length=180)
+    search_actors_or_movies = forms.CharField(
+        label='',
+        max_length=180,
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Search Actors or Movies'
+            })
+        )
 
 
 class LoginForm(forms.Form):
