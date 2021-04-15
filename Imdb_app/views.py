@@ -4,6 +4,7 @@ from Imdb_app.forms import SearchForm, SignupForm, Comment_Form, LoginForm
 from Imdb_app.models import ApplicationUser, Comment_model, LikedMoviesModel
 from Imdb_app.models import WantToSeeModel, HaveSeenModel
 from django.views import View
+from django.views.generic.base import TemplateView
 from Imdb_app.helpers import check_model, check_model_x_api
 from Imdb_app.helpers import retrieve_movie_trailer_id
 from Imdb_app.api_search_call import search_bar, results_data, top_movie_data
@@ -68,7 +69,7 @@ def home_page_view(request):
         'home_page_movie_data': movie_data,
         'homepage_tv_data': tv_data,
         'comments': comments
-        })
+    })
     return render(request, 'homepage.html', context)
 
 
@@ -149,7 +150,6 @@ def details_page(request, selection_id):
 
     app_user = ApplicationUser.objects.filter(
         username=request.user.username).first()
-
     liked = check_model(app_user, LikedMoviesModel, selection_id)
     seen = check_model(app_user, HaveSeenModel, selection_id)
     want_to = check_model(app_user, WantToSeeModel, selection_id)
@@ -168,7 +168,7 @@ def details_page(request, selection_id):
         url,
         headers=headers,
         params=querystring
-        )
+    )
     reply_data = response.json()
     context = {}
     context.update({'reply_data': reply_data})
@@ -208,6 +208,24 @@ def details_page(request, selection_id):
             'comments': comments,
         })
     return render(request, 'details_page.html', context)
+
+
+class UserProfileView(TemplateView):
+
+    template_name = "userprofile.html"
+
+    def get_context_data(self, applicationuser_id):
+        context = super().get_context_data()
+        context['haveseen'] = HaveSeenModel.objects.all().filter(
+            user=applicationuser_id)
+        context['wanttosee'] = WantToSeeModel.objects.all().filter(
+            user=applicationuser_id
+        )
+        context['comments'] = Comment_model.objects.all().filter(
+            commenter=applicationuser_id
+        )
+        context['search'] = SearchForm()
+        return context
 
 
 def login_view(request):
@@ -298,7 +316,7 @@ def ActorsView(request):
             'imageArray': imageArray,
             'movie_info': movie_info,
             'search_form': search_form
-            })
+        })
     return render(request, 'actorspage.html', context)
 
 
@@ -308,7 +326,6 @@ def add_to_likes(request, id):
     with the user and then delete from other model instance and create new'''
     app_user = ApplicationUser.objects.filter(
         username=request.user.username).first()
-
     url = "https://imdb8.p.rapidapi.com/auto-complete"
 
     querystring = {"q": id}
@@ -323,7 +340,7 @@ def add_to_likes(request, id):
         url,
         headers=headers,
         params=querystring
-        )
+    )
 
     data = response.json()
     title = data['d'][0]['l']
@@ -346,7 +363,6 @@ def want_to_see(request, id):
     with the user and then delete from other model instance and create new'''
     app_user = ApplicationUser.objects.filter(
         username=request.user.username).first()
-
     url = "https://imdb8.p.rapidapi.com/auto-complete"
 
     querystring = {"q": id}
@@ -361,7 +377,7 @@ def want_to_see(request, id):
         url,
         headers=headers,
         params=querystring
-        )
+    )
     data = response.json()
     title = data['d'][0]['l']
     img = data['d'][0]['i']['imageUrl']
@@ -383,7 +399,6 @@ def movies_have_seen(request, id):
     with the user and then delete from other model instance and create new'''
     app_user = ApplicationUser.objects.filter(
         username=request.user.username).first()
-
     want_to = check_model(app_user, WantToSeeModel, id)
     if want_to is not None:
         WantToSeeModel.objects.filter(movie_id=want_to).first().delete()
@@ -401,7 +416,7 @@ def movies_have_seen(request, id):
         url,
         headers=headers,
         params=querystring
-        )
+    )
     data = response.json()
     title = data['d'][0]['l']
     img = data['d'][0]['i']['imageUrl']
