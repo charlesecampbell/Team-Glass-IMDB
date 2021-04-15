@@ -19,7 +19,7 @@
     }
 
     #logout {
-        margin:  0 0 0 0;
+        margin: 0 0 0 0;
         color: black;
     }
 
@@ -33,10 +33,12 @@
 </style>
 <div id=headerHolder>
     {% if request.user.is_authenticated %}
-        <div id='signupLogin'>
-            <h2 id='username'>Welcome {{request.user.display_name}}</h2>
-            <a href='/logout/'><h2 id='logout'>Logout</h2></a>
-        </div>
+    <div id='signupLogin'>
+        <h2 id='username'>Welcome <a href="/user/{{request.user.id}}/">{{request.user.display_name}}</a></h2>
+        <a href='/logout/'>
+            <h2 id='logout'>Logout</h2>
+        </a>
+    </div>
     {% else %}
     <div id='signupLogin'>
         <a href='/signup/'>Sign Up</a>
@@ -44,10 +46,12 @@
     </div>
     {% endif %}
     <div id='logoName'>
-        <a href='/'><h1 id='logo'>ImdB</h1></a>
+        <a href='/'>
+            <h1 id='logo'>ImdB</h1>
+        </a>
     </div>
     <div id='formHolder'>
-        <form  action='' method="post" id='form'>
+        <form action='' method="post" id='form'>
             {% csrf_token %}
             {{search_form}}
             <input type="submit" value="Submit">
