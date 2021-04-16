@@ -1,61 +1,98 @@
+<style>
+    .movie {
+        width: 700px;
+        margin:0 217px;
+    }
+    .vid{
+        position: absolute;
+        margin-left: 10px;
+    }
+    .info{
+        margin-left:59%;
+    }
+    .links{
+        margin-left:16%;
+    }
+    .comment{
+        margin-left:34%;
+    }
+    .comments{
+        width:500px;
+        border: 1px solid;
+        text-align:center;
+        margin:0 auto;
+    }
+    .comments h4{
+        text-decoration: underline;
+        margin-top: 0;
+    }
+    .comment_header{
+        background-color: lightblue;
+        padding-top: 5px;
+    }
+</style>
 {% extends 'base_header.html' %}
 {% load split_tag %}
 
 {% block content %}
-<h1>Details Page</h1>
-<h3>{{reply_data.d.0.l}}</h3>
+<div class='movie'>
+<h1 class='info'>Details Page</h1>
+<h3 class='info'>{{reply_data.d.0.l}}</h3>
 <img src={{reply_data.d.0.i.imageUrl}} width="500">
 {% if trailer_link and encode_type %}
-    <video width="420" height="240" controls>
+    <video width="420" height="240" controls class="vid">
         <source src={{trailer_link}} type={{encode_type}}>
     </video>
 {% endif %}
-<h3>Year {{reply_data.d.0.y}}</h3>
-<h3>Actors</h3>
+<h3 class="info">Year {{reply_data.d.0.y}}</h3>
+<h3 class="info">Actors</h3>
 {% with reply_data.d.0.s|split:"," as item %}
     {% for actor in item %}
-        {{actor }} <br>
+            <p class="info">{{actor }}</p>
     {% endfor %}
 {% endwith %}
+</div>
 
 <br>
 {% if request.user.is_authenticated %}
 {% if reply_data.liked_movie == 'yes' %}
 <h3>You Like This Movie</h3>
 {% else %}
-<a href='/addtolikes/{{reply_data.q}}/'>Add to Liked Movies</a><br>
+<a class='links' href='/addtolikes/{{reply_data.q}}/'>Add to Liked Movies</a><br>
 {% endif %}
 
 {% if reply_data.seen_movie == 'yes' %}
 You've Seen This Movie
 {% else %}
-<a href='/addtoseen/{{reply_data.q}}/'>Add to Seen Movies</a><br>
+<a href='/addtoseen/{{reply_data.q}}/' class='links'>Add to Seen Movies</a><br>
 {% endif %}
 
 
 {% if reply_data.want_to_see == 'no' and reply_data.seen_movie == 'no' %}
-<a href='/addtowantosee/{{reply_data.q}}/'>Add to Want to See</a><br>
+<a href='/addtowantosee/{{reply_data.q}}/' class='links'>Add to Want to See</a><br>
 {% endif %}
-<!-- {% if reply_data.want_to_see == 'yes' %}
-<h2>Movie wants to be seen</h2>
-{% else %}
-<a href='/addtowantosee/{{reply_data.q}}/'>Add to Want to See</a><br>
-{% endif %} -->
-
 <hr>
-<h2>Comments</h2>
-<form method="post" action="">
+<h2 style="text-align:center">Comments</h2>
+<form method="post" action="" class="comment">
     {% csrf_token %}
     {{ form.as_p }}
     <input type='submit' value="submit"/>
 </form>
 {% endif %}
-<hr>
+
 {% for item in comments %}
+<div class="comments">
+<div class="comment_header">
 <h4>{{item.commenter}}</h4>
-<p>{{item.movie_title}}</p>
+{{item.date_created}}
+</div>
+<!-- <p>{{item.movie_title}}</p> -->
 <p>{{item.input_field}}</p>
-<p>{{item.date_created}}</p>
-<p>{{item.recommended}}</p>
+{% if item.recommended == True %}
+<p>Recommended</p>
+{% else %}
+<p>Not Recommended</p>
+{% endif %}
+</div>
 {% endfor %}
 {% endblock %}

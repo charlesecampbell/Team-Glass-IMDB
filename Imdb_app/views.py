@@ -176,7 +176,7 @@ def details_page(request, selection_id):
     check_model_x_api(liked, context['reply_data'], 'liked_movie')
     check_model_x_api(seen, context['reply_data'], 'seen_movie')
     check_model_x_api(want_to, context['reply_data'], 'want_to_see')
-    print(context)
+    # print(context)
 
     # FETCHES THE MOVIE TRAILER IF THERE IS ONE, SOMETIMES THERE ISNT A MATCH
     movie_id = reply_data['d'][0]['id']
@@ -197,6 +197,7 @@ def details_page(request, selection_id):
             )
             print(new_item)
     comments = Comment_model.objects.filter(movie_id=selection_id)
+    print(comments)
     form = Comment_Form()
     search_form = SearchForm()
     context.update(
