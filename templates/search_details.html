@@ -19,8 +19,8 @@
         width: 20%;
         margin: 15px 0 15px 0;
         border-radius: 10px;
-        -webkit-box-shadow: -5px 5px 9px 3px rgba(255,255,255,0.43); 
-        box-shadow: -5px 5px 9px 3px rgba(255,255,255,0.43);
+        -webkit-box-shadow: -5px 5px 9px 3px rgba(255, 255, 255, 0.247); 
+        box-shadow: -5px 5px 9px 3px rgba(255, 255, 255, 0.253);
     }
 
     .moviePoster {
@@ -39,6 +39,10 @@
         font-family: 'Oswald', sans-serif;
         color: white;
     }
+
+    .posterText {
+        font-family: 'Oswald', sans-serif;
+    }
 </style>
 
 {% extends 'base_header.html'%}
@@ -53,6 +57,8 @@
         {% endif %}
         {% if movie.poster %}
            <a href='/details/{{movie.id}}/'><img src={{movie.poster}} alt={{movie.title}} class="moviePoster"/></a>
+        {% else %}
+            <h2 class="posterText">NO POSTER AVAILABLE</h2>
         {% endif %}
         {% if movie.year %}
             <h3 class="movieYear">{{movie.year}}</h3>
