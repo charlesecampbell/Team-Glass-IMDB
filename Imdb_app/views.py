@@ -45,10 +45,10 @@ def home_page_view(request):
             # This runs the data collecter function and creates a list of
             # dictionaries to access in the templates
             movie_info = results_data(reply)
-
             # This allows access to the data to be used in different views
             # (see search_details_view to see how to call it)
             request.session['movie_info'] = (movie_info)
+
             # This directs the search results to the correct page
             if page_decision != 'nm':
                 return redirect(reverse('search_details'))
@@ -294,7 +294,8 @@ def logout_view(request):
 
 def ActorsView(request):
     context = {}
-    reply = {}
+    reply = ''
+    search_form = SearchForm()
 
     # SEARCH FORM IN THE HEADER
     if request.method == 'POST':
@@ -303,6 +304,7 @@ def ActorsView(request):
             data = search_form.cleaned_data
             reply = search_bar(data['search_actors_or_movies'])
             page_decision = reply['d'][0]['id'][:2]
+            print(page_decision)
             movie_info = results_data(reply)
             request.session['movie_info'] = movie_info
             if page_decision != 'nm':
@@ -312,14 +314,30 @@ def ActorsView(request):
     # End of Form Search Request From Header
 
     movie_info = request.session.get("movie_info")
-    search_id = movie_info[0]['id']
 
-    # Api Call With the Search Results
+    # Api Call For Images
     url = "https://imdb8.p.rapidapi.com/actors/get-all-images"
-    querystring = {"nconst": search_id}
-
+    querystring = {"nconst": movie_info[0]['id']}
     headers = {
-        'x-rapidapi-key': config('MAIN_IMDB_KEY'),
+        'x-rapidapi-key': "a3d8d2b4e0msh9912babc2875bfcp1e811cjsn1489c4504884",
+        'x-rapidapi-host': "imdb8.p.rapidapi.com"
+    }
+    response = requests.request(
+        "GET", url, headers=headers, params=querystring)
+    reply_data = response.json()
+    count = 0
+    imageArray = []
+    for images in reply_data["resource"]['images']:
+        print(images)
+        if count < 5:
+            imageArray.append(images['url'])
+            count += 1
+
+    # Api Call With the Bio Results
+    url = "https://imdb8.p.rapidapi.com/actors/get-bio"
+    querystring = {"nconst": movie_info[0]['id']}
+    headers = {
+        'x-rapidapi-key': "a3d8d2b4e0msh9912babc2875bfcp1e811cjsn1489c4504884",
         'x-rapidapi-host': "imdb8.p.rapidapi.com"
     }
 
@@ -327,20 +345,22 @@ def ActorsView(request):
         "GET", url, headers=headers, params=querystring)
 
     reply = response.json()
-    search_form = SearchForm()
-    count = 0
-    imageArray = []
-    for images in reply['resource']['images']:
-        if count < 5:
-            imageArray.append(images['url'])
-            count += 1
+    actor_image = reply["image"]["url"]
+    actor_bio = reply["miniBios"][0]["text"]
+    actor_birthdate = reply["birthDate"]
+    actor_birthplace = reply["birthPlace"]
+
     context.update(
         {
-            'reply': reply,
+            'search_form': search_form,
             'imageArray': imageArray,
             'movie_info': movie_info,
-            'search_form': search_form
+            'actor_image': actor_image,
+            'actor_bio': actor_bio,
+            'actor_birthdate': actor_birthdate,
+            'actor_birthplace': actor_birthplace,
         })
+
     return render(request, 'actorspage.html', context)
 
 

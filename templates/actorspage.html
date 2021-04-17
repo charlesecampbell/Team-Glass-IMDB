@@ -1,22 +1,33 @@
+<style>
+
+  #image {
+    width: 200px;
+  }  
+
+</style>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Team Glass Imdb Actors Page</title>
+    <title>Team Glass Imdb Actors</title>
   </head>
   <body>
     {% extends 'base_header.html' %}
-    
+
     {% block content %}
+    <h2> Bio {{actor_bio}}</h2>
+    <h2> Birthdate {{actor_birthdate}}</h2>
+    <h2> Birthplace {{actor_birthplace}}</h2>
+    
    {% for image in imageArray %}
-    <!-- <img name={{image}} -->
-    <img src={{image}} />
-    <br>
-    <br>
-    <br>
+    <img class="image" src={{image}} width="200" />
     {%endfor%}
+
     {% endblock %}
+
   </body>
+
 </html>
