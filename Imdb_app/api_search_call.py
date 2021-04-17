@@ -132,13 +132,30 @@ def top_movie_data():
             )
 
         top_reply = response.json()
+
+        # GETS MOVIE PLOTS
+        url = "https://imdb8.p.rapidapi.com/title/get-plots"
+
+        querystring = {"tconst": movie}
+
+        headers = {
+            'x-rapidapi-key': "1ddf0a8da3msh877010e622bf74dp10873cjsnd762a292965a",
+            'x-rapidapi-host': "imdb8.p.rapidapi.com"
+        }
+
+        response = requests.request("GET", url, headers=headers, params=querystring)
+
+        plot_reply = response.json()
+        plot = plot_reply['plots'][0]['text']
         home_page_movie_data.append(
             {
                 "id": top_reply['title']['id'][7:-1],
                 "image": top_reply['title']['image']['url'],
                 "title": top_reply['title']['title'],
-                "year": top_reply['title']['year']
+                "year": top_reply['title']['year'],
+                'plot': plot
             })
+    print(home_page_movie_data)
     return home_page_movie_data
 
 
@@ -197,14 +214,30 @@ def top_tv_info():
             headers=headers,
             params=querystring
             )
-
         tv_reply = response.json()
+
+        # GETS TV SHOW PLOTS
+        url = "https://imdb8.p.rapidapi.com/title/get-plots"
+
+        querystring = {"tconst": show_id}
+
+        headers = {
+            'x-rapidapi-key': "1ddf0a8da3msh877010e622bf74dp10873cjsnd762a292965a",
+            'x-rapidapi-host': "imdb8.p.rapidapi.com"
+        }
+
+        response = requests.request("GET", url, headers=headers, params=querystring)
+
+        plot_reply = response.json()
+        plot = plot_reply['plots'][0]['text']
+
         home_page_tv_data.append(
             {
                 "id": tv_reply['title']['id'][7:-1],
                 "image": tv_reply['title']['image']['url'],
                 "title": tv_reply['title']['title'],
-                "year": tv_reply['title']['year']
+                "year": tv_reply['title']['year'],
+                'plot': plot
             })
     print(home_page_tv_data)
     return home_page_tv_data
