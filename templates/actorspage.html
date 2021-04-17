@@ -1,9 +1,26 @@
 <style>
-
+ #Profile_picture {
+    width: 300px;
+ }
+ 
   #image {
     width: 200px;
   }  
 
+#awardHolder{
+  display: flex;
+  overflow-y: scroll;
+  width: 80%;
+}
+
+#award{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 5px 0 5px;
+  background-color: rgb(124, 218, 189);
+
+}
 </style>
 
 <!DOCTYPE html>
@@ -18,9 +35,22 @@
     {% extends 'base_header.html' %}
 
     {% block content %}
-    <h2> Bio {{actor_bio}}</h2>
+    <h2>{{name}}</h2>
     <h2> Birthdate {{actor_birthdate}}</h2>
     <h2> Birthplace {{actor_birthplace}}</h2>
+    <div id="awardHolder">
+    {% for award in won_list %}
+    <div id="award">
+      <h3 class="name">{{award.awardName}}</h3>
+      <h3 class="category">{{award.category}}</h3>
+      <h3 class="year">{{award.year}}</h3>
+      <h3 class="eventName">{{award.eventName}}</h3>
+    </div>
+    {%endfor%} 
+    </div>
+    <img src={{actor_image}} id="profile_picture"/>
+    <h2> Bio {{actor_bio}}</h2>
+ 
     
    {% for image in imageArray %}
     <img class="image" src={{image}} width="200" />
