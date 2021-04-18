@@ -30,6 +30,11 @@
         background-color: lightblue;
         padding-top: 5px;
     }
+    .inline_block_child{
+        display: inline-block;
+        width: 150px
+    }
+    
 </style>
 {% extends 'base_header.html' %}
 {% load split_tag %}
@@ -51,6 +56,8 @@
             <p class="info">{{actor }}</p>
     {% endfor %}
 {% endwith %}
+<h5>Plot</h5>
+<p>{{plot}}</p>
 </div>
 
 <br>
@@ -71,6 +78,18 @@ You've Seen This Movie
 {% if reply_data.want_to_see == 'no' and reply_data.seen_movie == 'no' %}
 <a href='/addtowantosee/{{reply_data.q}}/' class='links'>Add to Want to See</a><br>
 {% endif %}
+
+<!-- Recommendation List -->
+<h3>Recommendation List</h3>
+<div class="parent">
+{% for item in recommendations %}
+    <div class="child inline_block_child">
+        <h5><a href="/details/{{item.q}}">{{item.d.0.l}}</a></h5>
+        <img src="{{item.d.0.i.imageUrl}}" width="100">
+    </div>
+{% endfor %}
+</div>
+
 <hr>
 <h2 style="text-align:center">Comments</h2>
 <form method="post" action="" class="comment">

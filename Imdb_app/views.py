@@ -5,7 +5,7 @@ from Imdb_app.models import ApplicationUser, Comment_model, LikedMoviesModel
 from Imdb_app.models import WantToSeeModel, HaveSeenModel
 from django.views import View
 from django.views.generic.base import TemplateView
-from Imdb_app.helpers import check_model, check_model_x_api
+from Imdb_app.helpers import *
 from Imdb_app.helpers import retrieve_movie_trailer_id
 from Imdb_app.api_search_call import search_bar, results_data, top_movie_data
 from Imdb_app.api_search_call import top_tv_info, hollywood_news
@@ -200,12 +200,17 @@ def details_page(request, selection_id):
     check_model_x_api(seen, context['reply_data'], 'seen_movie')
     check_model_x_api(want_to, context['reply_data'], 'want_to_see')
     # print(context)
-
     # FETCHES THE MOVIE TRAILER IF THERE IS ONE, SOMETIMES THERE ISNT A MATCH
     movie_id = reply_data['d'][0]['id']
     movie_trailer = retrieve_movie_trailer_id(movie_id)
     # END TRAILER FETCH
+    # Find Five Recommendations
+    recommendations = find_recommendations(selection_id)
+    context.update({'recommendations': recommendations})
 
+    # Get plot of movie
+    plot = find_movie_plot(selection_id)
+    context.update({'plot': plot['plots'][1]['text']})
     if request.method == 'POST':
         form = Comment_Form(request.POST)
         if form.is_valid():
