@@ -1,7 +1,6 @@
 import requests
 from decouple import config
-from Imdb_app.forms import SearchForm
-from django.shortcuts import redirect, reverse
+from Imdb_app.models import HaveSeenModel, WantToSeeModel
 
 
 def search_bar(query):
@@ -19,22 +18,6 @@ def search_bar(query):
 
     reply = response.json()
     return reply
-
-
-def search_bar_request(request):
-    if request.method == 'POST':
-        search_form = SearchForm(request.POST)
-        if search_form.is_valid():
-            data = search_form.cleaned_data
-            print(data['search_actors_or_movies'])
-            reply = search_bar(data['search_actors_or_movies'])
-            page_decision = reply['d'][0]['id'][:2]
-            movie_info = results_data(reply)
-            request.session['movie_info'] = movie_info
-            if page_decision != 'nm':
-                return redirect(reverse('search_details'))
-            else:
-                return redirect(reverse('actorspage'))
 
 
 def results_data(reply):
@@ -72,6 +55,65 @@ def results_data(reply):
                     'title': poster['l']
                 })
     return (movie_info)
+
+
+def run_search(request, search_form):
+    if search_form.is_valid():
+        data = search_form.cleaned_data
+        reply = search_bar(data['search_actors_or_movies'])
+        page_decision = reply['d'][0]['id'][:2]
+        movie_info = results_data(reply)
+        request.session['movie_info'] = movie_info
+        if page_decision != 'nm':
+            for index, item_id in enumerate(movie_info):
+                # GETS TV SHOW PLOTS
+                if item_id['id'][0:2] != 'nm':
+                    url = "https://imdb8.p.rapidapi.com/title/get-plots"
+
+                    querystring = {"tconst": item_id['id']}
+
+                    headers = {
+                        'x-rapidapi-key': config('MAIN_IMDB_KEY'),
+                        'x-rapidapi-host': "imdb8.p.rapidapi.com"
+                        }
+
+                    response = requests.request(
+                        "GET",
+                        url,
+                        headers=headers,
+                        params=querystring)
+
+                    plot_reply = response.json()
+                    if plot_reply['plots']:
+                        movie_info[index]['plot'] =\
+                            plot_reply['plots'][0]['text']
+                    else:
+                        movie_info[index]['plot'] = 'No Plot Available'
+                else:
+                    movie_info[index]['plot'] = 'No Plot Available'
+
+                if request.user.id is not None:
+                    seen = HaveSeenModel.objects.filter(
+                        movie_id=item_id['id'],
+                        user=request.user
+                        )
+
+                    if seen:
+                        movie_info[index]['seen'] = True
+                    else:
+                        movie_info[index]['seen'] = False
+
+                if request.user.id is not None:
+                    want = WantToSeeModel.objects.filter(
+                        movie_id=item_id['id'],
+                        user=request.user
+                        )
+                    if want:
+                        movie_info[index]['want'] = True
+                    else:
+                        movie_info[index]['want'] = False
+            print(movie_info)
+        return(movie_info, page_decision)
 
 
 def top_movies_id():
@@ -139,11 +181,16 @@ def top_movie_data():
         querystring = {"tconst": movie}
 
         headers = {
-            'x-rapidapi-key': "1ddf0a8da3msh877010e622bf74dp10873cjsnd762a292965a",
+            'x-rapidapi-key': config('MAIN_IMDB_KEY'),
             'x-rapidapi-host': "imdb8.p.rapidapi.com"
         }
 
-        response = requests.request("GET", url, headers=headers, params=querystring)
+        response = requests.request(
+            "GET",
+            url,
+            headers=headers,
+            params=querystring
+            )
 
         plot_reply = response.json()
         plot = plot_reply['plots'][0]['text']
@@ -222,11 +269,16 @@ def top_tv_info():
         querystring = {"tconst": show_id}
 
         headers = {
-            'x-rapidapi-key': "1ddf0a8da3msh877010e622bf74dp10873cjsnd762a292965a",
+            'x-rapidapi-key': config('MAIN_IMDB_KEY'),
             'x-rapidapi-host': "imdb8.p.rapidapi.com"
         }
 
-        response = requests.request("GET", url, headers=headers, params=querystring)
+        response = requests.request(
+            "GET",
+            url,
+            headers=headers,
+            params=querystring
+            )
 
         plot_reply = response.json()
         plot = plot_reply['plots'][0]['text']
