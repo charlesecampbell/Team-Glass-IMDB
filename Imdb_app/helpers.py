@@ -64,3 +64,48 @@ def retrieve_movie_trailer_id(id):
     reply = response.json()
     get_vid_id = reply['resource']['videos'][0]['id'][9:]
     return retrieve_movie_trailer(get_vid_id)
+
+def get_movie_info(id):
+    url = "https://imdb8.p.rapidapi.com/auto-complete"
+
+    querystring = {"q":id}
+
+    headers = {
+        'x-rapidapi-key': config('MAIN_IMDB_KEY'),
+        'x-rapidapi-host': "imdb8.p.rapidapi.com"
+        }
+
+    response = requests.request("GET", url, headers=headers, params=querystring)
+
+    return response.json()
+
+def find_recommendations(id):
+    url = "https://imdb8.p.rapidapi.com/title/get-more-like-this"
+
+    querystring = {"tconst":id,"currentCountry":"US","purchaseCountry":"US"}
+
+    headers = {
+        'x-rapidapi-key': config('MAIN_IMDB_KEY'),
+        'x-rapidapi-host': "imdb8.p.rapidapi.com"
+        }
+
+    response = requests.request("GET", url, headers=headers, params=querystring)
+
+    movies = response.json()
+    movie_info_list = []
+    for item in movies:
+        movie_info_list.append(get_movie_info(item[7:-1]))
+    return movie_info_list[:5]
+
+def find_movie_plot(id):
+    url = "https://imdb8.p.rapidapi.com/title/get-plots"
+
+    querystring = {"tconst":id}
+
+    headers = {
+        'x-rapidapi-key': config('MAIN_IMDB_KEY'),
+        'x-rapidapi-host': "imdb8.p.rapidapi.com"
+        }
+
+    response = requests.request("GET", url, headers=headers, params=querystring) 
+    return response.json()
