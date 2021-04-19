@@ -48,11 +48,11 @@ def home_page_view(request):
     # GETS TOP FIVE MOVIES
 
     movie_data = [{'id': 'tt5034838', 'image': 'https://m.media-amazon.com/images/M/MV5BZmYzMzU4NjctNDI0Mi00MGExLWI3ZDQtYzQzYThmYzc2ZmNjXkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_.jpg', 'title': 'Godzilla vs. Kong', 'year': 2021, 'plot': 'The epic next chapter in the cinematic Monsterverse pits two of the greatest icons in motion picture history against one another - the fearsome Godzilla and the mighty Kong - with humanity caught in the balance.'}, {'id': 'tt3480822', 'image': 'https://m.media-amazon.com/images/M/MV5BYjdmODAzNTctNWU1NS00ZmRiLWFiM2YtMjAyNzgzZWJlZjhlXkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_.jpg', 'title': 'Black Widow', 'year': 2021, 'plot': 'A film about Natasha Romanoff in her quests between the films Civil War and Infinity War.'}, {'id': 'tt12361974', 'image': 'https://m.media-amazon.com/images/M/MV5BYjI3NDg0ZTEtMDEwYS00YWMyLThjYjktMTNlM2NmYjc1OGRiXkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_.jpg', 'title': "Zack Snyder's Justice League", 'year': 2021,
-    'plot': "Determined to ensure Superman's ultimate sacrifice was not in vain, Bruce Wayne aligns forces with Diana Prince with plans to recruit a team of metahumans to protect the world from an approaching threat of catastrophic proportions."}, {'id': 'tt0293429', 'image': 'https://m.media-amazon.com/images/M/MV5BY2ZlNWIxODMtN2YwZi00ZjNmLWIyN2UtZTFkYmZkNDQyNTAyXkEyXkFqcGdeQXVyODkzNTgxMDg@._V1_.jpg', 'title': 'Mortal Kombat', 'year': 2021, 'plot': "MMA fighter Cole Young seeks out Earth's greatest champions in order to stand against the enemies of Outworld in a high stakes battle for the universe."}, {'id': 'tt3554046', 'image': 'https://m.media-amazon.com/images/M/MV5BNjg3NmUwYjctMmIzYS00ZTNiLTlhNTYtMWMxNzE5YWIzNmQ4XkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg', 'title': 'Space Jam: A New Legacy', 'year': 2021, 'plot': 'NBA superstar LeBron James teams up with Bugs Bunny and the rest of the Looney Tunes for this long-awaited sequel.'}]
+                  'plot': "Determined to ensure Superman's ultimate sacrifice was not in vain, Bruce Wayne aligns forces with Diana Prince with plans to recruit a team of metahumans to protect the world from an approaching threat of catastrophic proportions."}, {'id': 'tt0293429', 'image': 'https://m.media-amazon.com/images/M/MV5BY2ZlNWIxODMtN2YwZi00ZjNmLWIyN2UtZTFkYmZkNDQyNTAyXkEyXkFqcGdeQXVyODkzNTgxMDg@._V1_.jpg', 'title': 'Mortal Kombat', 'year': 2021, 'plot': "MMA fighter Cole Young seeks out Earth's greatest champions in order to stand against the enemies of Outworld in a high stakes battle for the universe."}, {'id': 'tt3554046', 'image': 'https://m.media-amazon.com/images/M/MV5BNjg3NmUwYjctMmIzYS00ZTNiLTlhNTYtMWMxNzE5YWIzNmQ4XkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg', 'title': 'Space Jam: A New Legacy', 'year': 2021, 'plot': 'NBA superstar LeBron James teams up with Bugs Bunny and the rest of the Looney Tunes for this long-awaited sequel.'}]
     # GETS TOP FIVE TV SHOWS
 
     tv_data = [{'id': 'tt9208876', 'image': 'https://m.media-amazon.com/images/M/MV5BODNiODVmYjItM2MyMC00ZWQyLTgyMGYtNzJjMmVmZTY2OTJjXkEyXkFqcGdeQXVyNzk3NDUzNTc@._V1_.jpg', 'title': 'The Falcon and the Winter Soldier', 'year': 2021, 'plot': "Following the events of 'Avengers: Endgame,' Sam Wilson/Falcon and Bucky Barnes/Winter Soldier team up in a global adventure that tests their abilities -- and their patience."}, {'id': 'tt1520211', 'image': 'https://m.media-amazon.com/images/M/MV5BMTc5ZmM0OTQtNDY4MS00ZjMyLTgwYzgtOGY0Y2VlMWFmNDU0XkEyXkFqcGdeQXVyNDIzMzcwNjc@._V1_.jpg', 'title': 'The Walking Dead', 'year': 2010, 'plot': 'Sheriff Deputy Rick Grimes wakes up from a coma to learn the world is in ruins and must lead a group of survivors to stay alive.'}, {'id': 'tt7985576', 'image': 'https://m.media-amazon.com/images/M/MV5BY2U4ZTE1YTgtNmEzZi00N2E4LTk0MWItOTY3Y2RlNzliZTZjXkEyXkFqcGdeQXVyNjY1MTg4Mzc@._V1_.jpg', 'title': 'The Serpent', 'year': 2021,
-    'plot': "The twisting, real-life story of Charles Sobhraj, a murderer, thief and seductive master of disguise, who was a hidden darkness in the mid-70's on Asia's hippie trail."}, {'id': 'tt5774002', 'image': 'https://m.media-amazon.com/images/M/MV5BMDU4MWViOGItZGJjYi00YjczLTk1YmMtY2ZmNmY4YTllNDA0XkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_.jpg', 'title': "Jupiter's Legacy", 'year': 2021, 'plot': 'The first generation of superheroes has kept the world safe for nearly a century. Now their children must live up to their legacy in an epic drama that spans decades and navigates the dynamics of family, power and loyalty.'}, {'id': 'tt6741278', 'image': 'https://m.media-amazon.com/images/M/MV5BMmE1ODVhMGYtODYyYS00Mjc4LWIzN2EtYWZkZDg1MTUyNDkxXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg', 'title': 'Invincible', 'year': 2021, 'plot': 'An adult animated series based on the Skybound/Image comic about a teenager whose father is the most powerful superhero on the planet.'}]
+               'plot': "The twisting, real-life story of Charles Sobhraj, a murderer, thief and seductive master of disguise, who was a hidden darkness in the mid-70's on Asia's hippie trail."}, {'id': 'tt5774002', 'image': 'https://m.media-amazon.com/images/M/MV5BMDU4MWViOGItZGJjYi00YjczLTk1YmMtY2ZmNmY4YTllNDA0XkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_.jpg', 'title': "Jupiter's Legacy", 'year': 2021, 'plot': 'The first generation of superheroes has kept the world safe for nearly a century. Now their children must live up to their legacy in an epic drama that spans decades and navigates the dynamics of family, power and loyalty.'}, {'id': 'tt6741278', 'image': 'https://m.media-amazon.com/images/M/MV5BMmE1ODVhMGYtODYyYS00Mjc4LWIzN2EtYWZkZDg1MTUyNDkxXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg', 'title': 'Invincible', 'year': 2021, 'plot': 'An adult animated series based on the Skybound/Image comic about a teenager whose father is the most powerful superhero on the planet.'}]
 
     search_form = SearchForm()
     context.update({
@@ -128,7 +128,6 @@ def details_page(request, selection_id):
 
     if 'search_actors_or_movies' in request.POST:
         if request.method == 'POST':
-            print('why am I running', request)
             search_form = SearchForm(request.POST)
             reply_data = run_search(request, search_form)
             movie_info = reply_data[0]
@@ -167,7 +166,6 @@ def details_page(request, selection_id):
     check_model_x_api(liked, context['reply_data'], 'liked_movie')
     check_model_x_api(seen, context['reply_data'], 'seen_movie')
     check_model_x_api(want_to, context['reply_data'], 'want_to_see')
-    # print(context)
 
     # FETCHES THE MOVIE TRAILER IF THERE IS ONE, SOMETIMES THERE ISNT A MATCH
     movie_id = reply_data['d'][0]['id']
@@ -175,7 +173,6 @@ def details_page(request, selection_id):
     # END TRAILER FETCH
 
     if request.method == 'POST':
-        print('am i even running')
         form = Comment_Form(request.POST)
         if form.is_valid():
             data = form.cleaned_data
@@ -189,7 +186,6 @@ def details_page(request, selection_id):
             )
             print(new_item)
     comments = Comment_model.objects.filter(movie_id=selection_id)
-    print(comments)
     form = Comment_Form()
     search_form = SearchForm()
     context.update(
@@ -280,7 +276,6 @@ def ActorsView(request):
     count = 0
     imageArray = []
     for images in reply_data["resource"]['images']:
-        print(images)
         if count < 5:
             imageArray.append(images['url'])
             count += 1
@@ -309,7 +304,7 @@ def ActorsView(request):
     querystring = {"nconst": movie_info[0]['id']}
 
     headers = {
-        'x-rapidapi-key': "a3d8d2b4e0msh9912babc2875bfcp1e811cjsn1489c4504884",
+        'x-rapidapi-key': config('MAIN_IMDB_KEY'),
         'x-rapidapi-host': "imdb8.p.rapidapi.com"
     }
 

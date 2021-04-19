@@ -8,11 +8,51 @@
     <title>Glass Imdb | Login</title>
 </head>
 
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap');
+
+    body {
+        background-color: black;
+    }
+
+#loginFormHolder {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 40px 0 0 0;
+}
+
+#loginForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(124, 218, 189);
+    width: 15%;
+    border-radius: 10px;
+    padding: 0 0 15px 0;
+}
+
+#title2 {
+    font-family: 'Oswald', sans-serif;
+    margin: 15px 0 2px 0;
+}
+
+#loginTitle {
+    font-family: 'Oswald', sans-serif;
+    margin: 2px 0 15px 0;
+}
+
+#theForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+</style>
+
 {% extends 'base_header2.html' %}
 
 {% block content %}
-{% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'login.css' %}">
+
 <div id='loginFormHolder'>
     <div id='loginForm'>
         <h2 id='title2'>Glass IMDb</h2>

@@ -13,17 +13,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Welcome to team Glass Imdb Project</title>
 </head>
+<style>
+    body {
+        background-color: black;
+    }
 
+    #headerText {
+        font-family: 'Oswald', sans-serif;
+        color: white;
+        text-align: center;
+    }
+</style>
 <body>
     {% extends 'base_header2.html' %}
 
     {% block content %}
 
-    {% if header %}
-    <h1>{{header}}</h1>
-    {% endif %}
-
-    <h1> Sorry something went wrong on our end. Please head back to our Homepage.</h1>
+    <h1 id='headerText'> Sorry something went wrong on our end, Please head back to our Homepage.</h1>
     {% endblock %}
 </body>
 
