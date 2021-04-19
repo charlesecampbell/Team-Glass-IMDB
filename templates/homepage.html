@@ -14,10 +14,10 @@
 
 {% extends 'base_header.html' %}
 {% block content %}
-
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'homepage.css' %}">
 <div id='wholePage'>
-    {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'homepage.css' %}">
+    
     <div id='newsHolder'>
         <h2 id='newsTitle'>TOP HOLLYWOOD NEWS</h2>
         {% for article in top_news %}
