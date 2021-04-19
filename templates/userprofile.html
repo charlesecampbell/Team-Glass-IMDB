@@ -6,7 +6,6 @@
         flex-direction: column;
         align-items: center;
     }
-
     #topFiveHolder {
         display: flex;
         flex-direction: column;
@@ -15,11 +14,9 @@
         margin: 25px 0 0 0;
         width: 1100px;
     }
-
     #topFiveMovieHolder {
         display: flex;
     }
-
     .movieInTopFive {
         display: flex;
         flex-direction: column;
@@ -29,22 +26,18 @@
         width: 200px;
         overflow-wrap: break-word;
     }
-
     .moviePoster {
         max-width: 150px;
     }
-
     .movieTitle {
         text-align: center;
         margin: 0 0 0 0;
         height: 60px;
         font-size: 18px;
     }
-
     .movieYear {
         font-size: 18px;
     }
-
     #comments {
         display: flex;
         flex-direction: column;
@@ -55,7 +48,6 @@
         max-width: 265px;
         margin: 30px 0 30px 0;
     }
-
     .commentHolder {
         display: flex;
         flex-direction: column;
@@ -64,66 +56,61 @@
         margin: 5px 5px 5px 5px;
         width: 250px;
     }
-
     .cmPoster {
         max-width: 75px;
     }
-
     .cmTitle {
         text-align: center;
     }
-
     .cmDateHolder {
         display: flex;
         justify-content: space-around;
-
     }
-
     .cmDate {
         margin: 0 0 0 5px;
     }
-
     .cmCommenter {
         margin: 0 5px 0 0;
     }
 </style>
-
 <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Glass IMDb | Profile</title>
+    <title>Glass IMDb | User Profile</title>
 </head>
-
 <body>
     {% extends 'base_header2.html' %}
-
     {% block content %}
-
     {% if header %}
     <h1>{{header}}</h1>
     {% endif %}
-
-    <h1>User Profile Page</h1>
-    <br>
-    <br>
-
-
-
-    <p><strong>Movies Seen</strong></p>
-    {% for seen in haveseen %}
-    <p>{{seen.movie_title}}</p>
-    <a href="/details/{{seen.movie_id}}/"><img src={{seen.movie_img}} width="200" /></a>
-    <p>{{seen.movie_release}}</p>
+    {% for item in my_user %}
+    <h1>{{item.display_name}}</h1>
+    {% if item.user_image %}
+        <img src={{item.user_image.url}} width=100>
+    {% endif %}
+    <h1>Bio: {{item.bio}}</h1>
+    <a href="/update/{{item.id}}"><button>UPDATE PROFILE</button></a>
     {% endfor %}
-
+    <br>
+    <br>
+    <div id=topHolder>
+        <p><strong>Movies Seen</strong></p>
+        <div id=topFiveHolder>
+            {% for seen in haveseen %}
+            <p>{{seen.movie_title}}</p>
+            <a href="/details/{{seen.movie_id}}/"><img src={{seen.movie_img}} width="200" /></a>
+            <p>{{seen.movie_release}}</p>
+            {% endfor %}
+        </div>
+    </div>
     <p><strong> Movies I Want To See </strong></p>
     {% for item in wanttosee %}
     <p>{{item.movie_title}}</p>
     <a href="/details/{{item.movie_id}}/"><img src={{item.movie_img}} width="200" /></a>
     <p>{{item.movie_release}}</p>
     {% endfor %}
-
     <div id='comments'>
         <h2 id='cmHeader'>USER COMMENTS</h2>
         {% for comment in comments %}
@@ -140,8 +127,5 @@
         {% endfor %}
     </div>
     {% endblock %}
-
-
 </body>
-
 </html>

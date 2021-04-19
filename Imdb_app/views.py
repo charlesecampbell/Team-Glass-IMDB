@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect, reverse
 from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.decorators import login_required
 from Imdb_app.forms import SearchForm, SignupForm, Comment_Form, LoginForm
+from Imdb_app.forms import UpdateUserForm
 from Imdb_app.models import ApplicationUser, Comment_model, LikedMoviesModel
 from Imdb_app.models import WantToSeeModel, HaveSeenModel
 from django.views import View
@@ -178,7 +180,7 @@ def details_page(request, selection_id):
 
     # Get plot of movie
     plot = find_movie_plot(selection_id)
-    context.update({'plot': plot['plots'][1]['text']})
+    context.update({'plot': plot['plots'][0]['text']})
     if request.method == 'POST':
         form = Comment_Form(request.POST)
         if form.is_valid():
@@ -208,11 +210,9 @@ def details_page(request, selection_id):
 
 
 class UserProfileView(TemplateView):
-
     template_name = "userprofile.html"
 
     def get_context_data(self, applicationuser_id):
-
         context = super().get_context_data()
         context['haveseen'] = HaveSeenModel.objects.all().filter(
             user=applicationuser_id)
@@ -223,6 +223,9 @@ class UserProfileView(TemplateView):
             commenter=applicationuser_id
         )
         context['search'] = SearchForm()
+        context['my_user'] = ApplicationUser.objects.all().filter(
+            id=applicationuser_id
+        )
         return context
 
 
@@ -456,3 +459,17 @@ def movies_have_seen(request, id):
         user=app_user
     )
     return redirect(f'/details/{id}')
+
+
+@login_required
+def profile_update(request, applicationuser_id):
+    if request.method == 'POST':
+        user_form = UpdateUserForm(
+            request.POST, request.FILES, instance=request.user)
+        if user_form.is_valid():
+            user_form.cleaned_data
+            user_form.save()
+            return redirect(f'/user/{applicationuser_id}/')
+    else:
+        user_form = UpdateUserForm()
+    return render(request, 'update_user.html', {'userform': user_form})

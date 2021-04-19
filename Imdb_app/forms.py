@@ -1,6 +1,6 @@
 
 from django import forms
-from Imdb_app.models import Comment_model
+from Imdb_app.models import Comment_model, ApplicationUser
 
 
 class SignupForm(forms.Form):
@@ -61,3 +61,14 @@ class LoginForm(forms.Form):
         widget=forms.PasswordInput(attrs={
             'placeholder': 'Password'
         }))
+
+
+class UpdateUserForm(forms.ModelForm):
+    class Meta:
+        model = ApplicationUser
+        fields = [
+            'display_name',
+            'email',
+            'bio',
+            'user_image'
+        ]

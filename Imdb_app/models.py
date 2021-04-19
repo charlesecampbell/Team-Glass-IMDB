@@ -7,6 +7,11 @@ from django.db import models
 
 class ApplicationUser(AbstractUser):
     display_name = models.CharField(max_length=50)
+    bio = models.CharField(blank=True, max_length=200, null=True)
+    user_image = models.FileField(blank=True, null=True, upload_to='images/')
+
+    def __str__(self):
+        return f'{self.display_name}'
 
 
 class Comment_model(models.Model):

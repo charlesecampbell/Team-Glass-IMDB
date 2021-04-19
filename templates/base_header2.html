@@ -48,10 +48,19 @@
     #user {
         color: black;
     }
+
+    #profilePic {
+        width: 50px;
+        margin: 0 10px 0 0;
+        border-radius: 35px;
+    }
 </style>
 <div id=headerHolder>
     {% if request.user.is_authenticated %}
     <div id='signupLogin'>
+        {% if request.user.user_image %}
+            <img id='profilePic' src='{{request.user.user_image.url}}' alt='picture of {{request.user.username}}' />
+        {% endif %}
         <h2 id='username'><a href="/user/{{request.user.id}}/" id='user'>{{request.user.display_name}}'s Profile</a>  / </h2>
         <a href='/logout/'>
             <h2 id='logout'>  Logout</h2>

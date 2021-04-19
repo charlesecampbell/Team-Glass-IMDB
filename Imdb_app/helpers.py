@@ -82,7 +82,7 @@ def get_movie_info(id):
 def find_recommendations(id):
     url = "https://imdb8.p.rapidapi.com/title/get-more-like-this"
 
-    querystring = {"tconst":id,"currentCountry":"US","purchaseCountry":"US"}
+    querystring = {"tconst": id, "currentCountry": "US", "purchaseCountry": "US"}
 
     headers = {
         'x-rapidapi-key': config('MAIN_IMDB_KEY'),
@@ -92,6 +92,7 @@ def find_recommendations(id):
     response = requests.request("GET", url, headers=headers, params=querystring)
 
     movies = response.json()
+    print(movies, 'movies here')
     movie_info_list = []
     for item in movies:
         movie_info_list.append(get_movie_info(item[7:-1]))
@@ -100,7 +101,7 @@ def find_recommendations(id):
 def find_movie_plot(id):
     url = "https://imdb8.p.rapidapi.com/title/get-plots"
 
-    querystring = {"tconst":id}
+    querystring = {"tconst": id}
 
     headers = {
         'x-rapidapi-key': config('MAIN_IMDB_KEY'),
