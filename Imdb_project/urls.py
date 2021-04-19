@@ -16,7 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from Imdb_app import views
-from Imdb_app.views import SignupView, UserProfileView, login_view, details_page, add_to_likes, want_to_see, movies_have_seen
+from Imdb_project import settings
+from django.contrib.staticfiles.urls import static
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from Imdb_app.views import SignupView, UserProfileView, LogoutView, profile_update, login_view, details_page, add_to_likes, want_to_see, movies_have_seen
 from Imdb_app.views import SignupView, login_view, details_page, add_to_likes
 from Imdb_app.views import want_to_see, movies_have_seen
 
@@ -24,11 +27,13 @@ urlpatterns = [
     path('', views.home_page_view, name='home'),
     path('signup/', SignupView.as_view(), name='signup'),
     path('user/<int:applicationuser_id>/',
-         UserProfileView.as_view(), name='user_profile'),
+         UserProfileView.as_view(), name='userprofile'),
+    path('update/<int:applicationuser_id>',
+         views.profile_update, name="update"),
     path('searchresults/', views.search_details_view, name='search_details'),
     path('details/<str:selection_id>/', details_page, name='details'),
     path('login/', login_view, name='login'),
-    path('logout/', views.logout_view, name='logout'),
+    path('logout/', LogoutView.as_view(), name='logout'),
     path('actorspage/', views.ActorsView, name='actorspage'),
     path('addtolikes/<str:id>/', add_to_likes, name='add_to_likes'),
     path('addtoseen/<str:id>/', movies_have_seen, name='have_seen'),
@@ -39,3 +44,7 @@ urlpatterns = [
 # added handler varables for views.py
 handler404 = 'Imdb_app.views.error_404'
 handler500 = 'Imdb_app.views.error_500'
+
+# added to add images
+urlpatterns += staticfiles_urlpatterns()
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
