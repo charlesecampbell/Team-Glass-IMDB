@@ -1,0 +1,134 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap');
+
+    body {
+        background-color: black;
+    }
+
+    #resultsDisplay {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 60%;
+    }
+    .movieInfo {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border: 1px solid white;
+        background-color: rgb(124, 218, 189);
+        width: 325px;
+        margin: 15px 0 15px 0;
+        border-radius: 10px;
+        -webkit-box-shadow: -5px 5px 9px 3px rgba(255, 255, 255, 0.247); 
+        box-shadow: -5px 5px 9px 3px rgba(255, 255, 255, 0.253);
+    }
+
+    .moviePoster {
+        width: 200px;
+    }
+
+    .movieTitle {
+        font-family: 'Oswald', sans-serif;
+    }
+
+    .movieYear {
+        font-family: 'Oswald', sans-serif;
+    }
+
+    #pageTitle {
+        font-family: 'Oswald', sans-serif;
+        color: white;
+    }
+
+    .posterText {
+        font-family: 'Oswald', sans-serif;
+    }
+
+    .quickplotmovie {
+        position: relative;
+        display: inline-block;
+        font-family: 'Oswald', sans-serif;
+        background-color: rgb(71, 126, 108);
+        border-radius: 5px;
+        padding: 0 5px 0 5px;
+        margin: 10px 0 0 0;
+    }
+
+    .quickplotmovie .quickplottextmovie {
+        visibility: hidden;
+        width: 200px;
+        background-color: black;
+        color: rgb(124, 218, 189);
+        text-align: center;
+        border-radius: 6px;
+        border: 1px solid grey;
+        margin: 10px 10px 10px 10px;
+
+        position: absolute;
+        z-index: 1;
+        bottom: 125%;
+        left: 50%;
+        margin-left: -60px;
+
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+    .quickplotmovie:hover .quickplottextmovie {
+        visibility: visible;
+        opacity: 1;
+        cursor: pointer;
+    }
+
+    #pageHolder {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    #seenHolder {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 20%;
+        background-color: rgb(124, 218, 189);
+    }
+
+    .seenTitle {
+        font-family: 'Oswald', sans-serif;
+    }
+
+    #mainSeenTitle {
+        background-color: black;
+        font-family: 'Oswald', sans-serif;
+        color: rgb(124, 218, 189);
+        width: 100%;
+        text-align: center;
+        margin: 0 0 0 0;
+        padding: 25px 0 25px 0;
+    }
+
+    #wantHolder {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 20%;
+        background-color: rgb(124, 218, 189);
+    }
+
+    #mainWantTitle {
+        background-color: black;
+        font-family: 'Oswald', sans-serif;
+        color: rgb(124, 218, 189);
+        width: 100%;
+        text-align: center;
+        margin: 0 0 0 0;
+        padding: 25px 0 25px 0;
+    }
+
+    .wantTitle {
+        font-family: 'Oswald', sans-serif;
+    }
+
+    #loginorsignup {
+        font-family: 'Oswald', sans-serif;
+    }
