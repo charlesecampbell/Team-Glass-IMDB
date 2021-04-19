@@ -49,11 +49,6 @@ class SearchForm(forms.Form):
     )
 
 
-class LoginForm(forms.Form):
-    username = forms.CharField(max_length=50)
-    password = forms.CharField(widget=forms.PasswordInput)
-
-
 class UpdateUserForm(forms.ModelForm):
     class Meta:
         model = ApplicationUser
@@ -63,6 +58,10 @@ class UpdateUserForm(forms.ModelForm):
             'bio',
             'user_image'
         ]
+
+
+class LoginForm(forms.Form):
+
     username = forms.CharField(
         label='',
         max_length=50,

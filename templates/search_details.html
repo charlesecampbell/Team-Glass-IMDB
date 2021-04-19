@@ -1,40 +1,204 @@
-<style>
-    #resultsDisplay {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    .movieInfo {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        border: 1px solid black;
-        background-color: aqua;
-        width: 20%;
-    }
+<!DOCTYPE html>
+<html lang="en">
 
-    .moviePoster {
-        width: 200px;
-    }
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Glass IMDb | Search Results</title>
+</head>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap');
+
+body {
+    background-color: black;
+}
+
+#resultsDisplay {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 60%;
+}
+.movieInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid white;
+    background-color: rgb(124, 218, 189);
+    width: 325px;
+    margin: 15px 0 15px 0;
+    border-radius: 10px;
+    -webkit-box-shadow: -5px 5px 9px 3px rgba(255, 255, 255, 0.247); 
+    box-shadow: -5px 5px 9px 3px rgba(255, 255, 255, 0.253);
+}
+
+.moviePoster {
+    width: 200px;
+}
+
+.movieTitle {
+    font-family: 'Oswald', sans-serif;
+}
+
+.movieYear {
+    font-family: 'Oswald', sans-serif;
+}
+
+#pageTitle {
+    font-family: 'Oswald', sans-serif;
+    color: white;
+}
+
+.posterText {
+    font-family: 'Oswald', sans-serif;
+}
+
+.quickplotmovie {
+    position: relative;
+    display: inline-block;
+    font-family: 'Oswald', sans-serif;
+    background-color: rgb(71, 126, 108);
+    border-radius: 5px;
+    padding: 0 5px 0 5px;
+    margin: 10px 0 0 0;
+}
+
+.quickplotmovie .quickplottextmovie {
+    visibility: hidden;
+    width: 200px;
+    background-color: black;
+    color: rgb(124, 218, 189);
+    text-align: center;
+    border-radius: 6px;
+    border: 1px solid grey;
+    margin: 10px 10px 10px 10px;
+
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.quickplotmovie:hover .quickplottextmovie {
+    visibility: visible;
+    opacity: 1;
+    cursor: pointer;
+}
+
+#pageHolder {
+    display: flex;
+    justify-content: flex-end;
+}
+
+#seenHolder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 20%;
+    background-color: rgb(124, 218, 189);
+}
+
+.seenTitle {
+    font-family: 'Oswald', sans-serif;
+}
+
+#mainSeenTitle {
+    background-color: black;
+    font-family: 'Oswald', sans-serif;
+    color: rgb(124, 218, 189);
+    width: 100%;
+    text-align: center;
+    margin: 0 0 0 0;
+    padding: 25px 0 25px 0;
+}
+
+#wantHolder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 20%;
+    background-color: rgb(124, 218, 189);
+}
+
+#mainWantTitle {
+    background-color: black;
+    font-family: 'Oswald', sans-serif;
+    color: rgb(124, 218, 189);
+    width: 100%;
+    text-align: center;
+    margin: 0 0 0 0;
+    padding: 25px 0 25px 0;
+}
+
+.wantTitle {
+    font-family: 'Oswald', sans-serif;
+}
+
+#loginorsignup {
+    font-family: 'Oswald', sans-serif;
+}
 </style>
 
 {% extends 'base_header.html'%}
 
 {% block content %}
+
+<div id='pageHolder'>
+        {% if request.user.is_authenticated %}
+        <div id='seenHolder'>
+            <h2 id='mainSeenTitle'>IN THIS SEARCH YOU HAVE SEEN</h2>
+            {% for user_movie in movie_info %}
+                {% if user_movie.seen == True %}
+                    <h3 class='seenTitle'>{{ user_movie.title }}</h3>
+                {% endif %}
+            {% endfor %}
+        </div>
+        {% else %}
+        <div id='seenHolder'>
+            <h2 id='mainSeenTitle'>IN THIS SEARCH YOU HAVE SEEN</h2>
+            <h3 id='loginorsignup'>Login or Signup to use</h3>
+        </div>
+        {% endif %}
     <div id='resultsDisplay'>
-    <h1>HELLO TEAM GLASS!</h1>
+    <h1 id='pageTitle'>Search Results</h1>
    {% for movie in movie_info %}
     <div class='movieInfo'>
-        {% if movie.title%}
+        {% if movie.title %}
             <h2 class='movieTitle'>{{movie.title}}</h2>
         {% endif %}
         {% if movie.poster %}
            <a href='/details/{{movie.id}}/'><img src={{movie.poster}} alt={{movie.title}} class="moviePoster"/></a>
+        {% else %}
+            <h2 class="posterText">NO POSTER AVAILABLE</h2>
         {% endif %}
+        <div class="quickplotmovie">Quick Plot
+            <span class="quickplottextmovie">{{movie.plot}}</span>
+        </div>
         {% if movie.year %}
             <h3 class="movieYear">{{movie.year}}</h3>
         {% endif %}
     </div>
    {% endfor %}
+    </div>
+    {% if request.user.is_authenticated %}
+    <div id='wantHolder'>
+        <h2 id='mainWantTitle'>IN THIS SEARCH YOU WANT TO SEE</h2>
+        {% for user_movie in movie_info %}
+            {% if user_movie.want == True %}
+                <h3 class='wantTitle'>{{ user_movie.title }}</h3>
+            {% endif %}
+        {% endfor %}
+    </div>
+    {% else %}
+    <div id='wantHolder'>
+        <h2 id='mainWantTitle'>IN THIS SEARCH YOU HAVE SEEN</h2>
+        <h3 id='loginorsignup'>Login or Signup to use</h3>
+    </div>
+    {% endif %}
     </div>
 {% endblock%}

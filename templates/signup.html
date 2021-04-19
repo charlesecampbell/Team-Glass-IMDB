@@ -5,24 +5,62 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Welcome to team Glass Imdb Project</title>
+    <title>Glass IMDb | Signup</title>
 </head>
 
-<body>
-    {% extends 'base_header.html' %}
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap');
 
+    body {
+        background-color: black;
+        }
+
+    #signUpFormHolder {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        margin: 40px 0 0 0;
+    }
+
+    #signUpForm {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: rgb(124, 218, 189);
+        width: 15%;
+        border-radius: 10px;
+        padding: 0 0 15px 0;
+    }
+
+    #theForm {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #title3 {
+        font-family: 'Oswald', sans-serif;
+        margin: 15px 0 2px 0;
+    }
+
+    #signup3 {
+        font-family: 'Oswald', sans-serif;
+        margin: 2px 0 15px 0;
+    }
+    </style>
+    {% extends 'base_header2.html' %}
+    
     {% block content %}
 
-    {% if header %}
-    <h1>{{header}}</h1>
-    {% endif %}
-
-    <form action="" method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Submit" />
-    </form>
+    <div id='signUpFormHolder'>
+        <div id='signUpForm'>
+            <h2 id='title3'>GLASS IMDB</h2>
+            <h2 id='signup3'>SIGNUP</h2>
+            <form action="" method="post" id='theForm'>
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="Submit" />
+            </form>
+        </div>
+    </div>
     {% endblock %}
-</body>
-
-</html>

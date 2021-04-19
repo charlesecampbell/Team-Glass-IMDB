@@ -1,10 +1,67 @@
-{% extends 'base_header.html' %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Glass Imdb | Login</title>
+</head>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap');
+
+    body {
+        background-color: black;
+    }
+
+#loginFormHolder {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 40px 0 0 0;
+}
+
+#loginForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(124, 218, 189);
+    width: 15%;
+    border-radius: 10px;
+    padding: 0 0 15px 0;
+}
+
+#title2 {
+    font-family: 'Oswald', sans-serif;
+    margin: 15px 0 2px 0;
+}
+
+#loginTitle {
+    font-family: 'Oswald', sans-serif;
+    margin: 2px 0 15px 0;
+}
+
+#theForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+</style>
+
+{% extends 'base_header2.html' %}
 
 {% block content %}
-<h1>Login</h1>
-<form action="" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type='submit' value='submit' />
-</form>
+
+<div id='loginFormHolder'>
+    <div id='loginForm'>
+        <h2 id='title2'>Glass IMDb</h2>
+        <h2 id='loginTitle'>Login</h2>
+        <form action="" method="post" id='theForm'>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type='submit' value='submit' />
+        </form>
+    </div>
+</div>
 {% endblock %}
