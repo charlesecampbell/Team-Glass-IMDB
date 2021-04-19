@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect, reverse
 from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.decorators import login_required
-from Imdb_app.forms import SearchForm, SignupForm, Comment_Form, LoginForm, UpdateUserForm
+from Imdb_app.forms import SearchForm, SignupForm, Comment_Form, LoginForm
 from Imdb_app.models import ApplicationUser, Comment_model, LikedMoviesModel
 from Imdb_app.models import WantToSeeModel, HaveSeenModel
 from django.views import View
@@ -224,25 +223,7 @@ class UserProfileView(TemplateView):
             commenter=applicationuser_id
         )
         context['search'] = SearchForm()
-        context['my_user'] = ApplicationUser.objects.all().filter(
-            id=applicationuser_id
-        )
         return context
-
-
-@login_required
-def profile_update(request, applicationuser_id):
-    if request.method == 'POST':
-        user_form = UpdateUserForm(
-            request.POST, request.FILES, instance=request.user)
-        if user_form.is_valid():
-            user_form.cleaned_data
-            user_form.save()
-            return redirect(f'/user/{applicationuser_id}/')
-    else:
-        user_form = UpdateUserForm()
-
-    return render(request, 'update_user.html', {'userform': user_form})
 
 
 def login_view(request):
@@ -264,10 +245,9 @@ def login_view(request):
     return render(request, 'login.html', context)
 
 
-class LogoutView(View):
-    def get(self, request):
-        logout(request)
-        return redirect(reverse('login'))
+def logout_view(request):
+    logout(request)
+    return redirect(reverse('login'))
 
 
 def ActorsView(request):

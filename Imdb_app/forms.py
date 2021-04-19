@@ -1,6 +1,6 @@
 
 from django import forms
-from Imdb_app.models import Comment_model, ApplicationUser
+from Imdb_app.models import Comment_model
 
 
 class SignupForm(forms.Form):
@@ -45,23 +45,11 @@ class SearchForm(forms.Form):
         max_length=180,
         widget=forms.TextInput(attrs={
             'placeholder': 'Search Actors or Movies'
-        })
-    )
-
-
-class UpdateUserForm(forms.ModelForm):
-    class Meta:
-        model = ApplicationUser
-        fields = [
-            'display_name',
-            'email',
-            'bio',
-            'user_image'
-        ]
+            })
+        )
 
 
 class LoginForm(forms.Form):
-
     username = forms.CharField(
         label='',
         max_length=50,
