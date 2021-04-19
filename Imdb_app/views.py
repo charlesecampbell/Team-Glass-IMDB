@@ -36,7 +36,6 @@ def home_page_view(request):
         reply_data = run_search(request, search_form)
         movie_info = reply_data[0]
         page_decision = reply_data[1]
-        print(movie_info)
         request.session['movie_info'] = (movie_info)
         if page_decision != 'nm':
             return redirect(reverse('search_details'))
@@ -127,17 +126,18 @@ def search_details_view(request):
 # Details page view
 def details_page(request, selection_id):
 
-    # it controls the header search bar
-    if request.method == 'POST':
-        search_form = SearchForm(request.POST)
-        reply_data = run_search(request, search_form)
-        movie_info = reply_data[0]
-        page_decision = reply_data[1]
-        request.session['movie_info'] = (movie_info)
-        if page_decision != 'nm':
-            return redirect(reverse('search_details'))
-        else:
-            return redirect(reverse('actorspage'))
+    if 'search_actors_or_movies' in request.POST:
+        if request.method == 'POST':
+            print('why am I running', request)
+            search_form = SearchForm(request.POST)
+            reply_data = run_search(request, search_form)
+            movie_info = reply_data[0]
+            page_decision = reply_data[1]
+            request.session['movie_info'] = (movie_info)
+            if page_decision != 'nm':
+                return redirect(reverse('search_details'))
+            else:
+                return redirect(reverse('actorspage'))
     # END HEADER SEARCH BAR
 
     app_user = ApplicationUser.objects.filter(
@@ -175,6 +175,7 @@ def details_page(request, selection_id):
     # END TRAILER FETCH
 
     if request.method == 'POST':
+        print('am i even running')
         form = Comment_Form(request.POST)
         if form.is_valid():
             data = form.cleaned_data
@@ -278,7 +279,6 @@ def ActorsView(request):
     reply_data = response.json()
     count = 0
     imageArray = []
-    print(reply_data)
     for images in reply_data["resource"]['images']:
         print(images)
         if count < 5:

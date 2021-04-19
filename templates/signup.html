@@ -10,18 +10,22 @@
 
 <body>
     {% extends 'base_header2.html' %}
+    
 
     {% block content %}
-
-    {% if header %}
-    <h1>{{header}}</h1>
-    {% endif %}
-
-    <form action="" method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Submit" />
-    </form>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'signup.css' %}">
+    <div id='signUpFormHolder'>
+        <div id='signUpForm'>
+            <h2 id='title3'>GLASS IMDB</h2>
+            <h2 id='signup3'>SIGNUP</h2>
+            <form action="" method="post" id='theForm'>
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="Submit" />
+            </form>
+        </div>
+    </div>
     {% endblock %}
 </body>
 

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,9 +8,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Welcome to team Glass Imdb Project</title>
 </head>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap');
+    
+    body {
+        background-color: black;
+    }
+
+    #headerText {
+        font-family: 'Oswald', sans-serif;
+        color: white;
+        text-align: center;
+    }
+</style>
+
 
 <body>
-    {% extends 'base_header.html' %}
+    {% extends 'base_header2.html' %}
 
     {% block content %}
 
@@ -17,7 +32,7 @@
     <h1>{{header}}</h1>
     {% endif %}
 
-    <h1>This page does not exist! Please head back to our homepage.</h1>
+    <h1 id='headerText'>This page does not exist! Please head back to our homepage.</h1>
     {% endblock %}
 </body>
 
