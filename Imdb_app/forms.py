@@ -4,12 +4,29 @@ from Imdb_app.models import Comment_model, ApplicationUser
 
 
 class SignupForm(forms.Form):
-    email = forms.EmailField()
-    display_name = forms.CharField(max_length=50)
-    username = forms.CharField(max_length=50)
-    password = forms.CharField(widget=forms.PasswordInput)
-    # Was unsure of to whether to include the likes,want_to_see,
-    # and have_seen in the inital signup or rather after
+    email = forms.EmailField(
+        label='',
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Email'
+        })
+    )
+    display_name = forms.CharField(
+        label='',
+        max_length=50,
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Display Name'
+        }))
+    username = forms.CharField(
+        label='',
+        max_length=50,
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Username'
+        }))
+    password = forms.CharField(
+        label='',
+        widget=forms.PasswordInput(attrs={
+            'placeholder': 'Password'
+        }))
 
 
 # This is the comment form **Model Form
@@ -23,7 +40,13 @@ class Comment_Form(forms.ModelForm):
 
 
 class SearchForm(forms.Form):
-    search_actors_or_movies = forms.CharField(max_length=180)
+    search_actors_or_movies = forms.CharField(
+        label='',
+        max_length=180,
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Search Actors or Movies'
+        })
+    )
 
 
 class LoginForm(forms.Form):
@@ -40,3 +63,14 @@ class UpdateUserForm(forms.ModelForm):
             'bio',
             'user_image'
         ]
+    username = forms.CharField(
+        label='',
+        max_length=50,
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Username'
+        }))
+    password = forms.CharField(
+        label='',
+        widget=forms.PasswordInput(attrs={
+            'placeholder': 'Password'
+        }))
