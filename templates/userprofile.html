@@ -104,19 +104,25 @@
     <h1>{{header}}</h1>
     {% endif %}
 
-    <h1>User Profile Page</h1>
-    <br>
-    <br>
-
-
-
-    <p><strong>Movies Seen</strong></p>
-    {% for seen in haveseen %}
-    <p>{{seen.movie_title}}</p>
-    <a href="/details/{{seen.movie_id}}/"><img src={{seen.movie_img}} width="200" /></a>
-    <p>{{seen.movie_release}}</p>
+    {% for item in my_user %}
+    <h1>{{item.display_name}}</h1>
+    <img src={{item.user_image.url}} width=100>
+    <h1>Bio: {{item.bio}}</h1>
+    <a href="/update/{{item.id}}"><button>UPDATE PROFILE</button></a>
     {% endfor %}
+    <br>
 
+    <br>
+    <div id=topHolder>
+        <p><strong>Movies Seen</strong></p>
+        <div id=topFiveHolder>
+            {% for seen in haveseen %}
+            <p>{{seen.movie_title}}</p>
+            <a href="/details/{{seen.movie_id}}/"><img src={{seen.movie_img}} width="200" /></a>
+            <p>{{seen.movie_release}}</p>
+            {% endfor %}
+        </div>
+    </div>
     <p><strong> Movies I Want To See </strong></p>
     {% for item in wanttosee %}
     <p>{{item.movie_title}}</p>
@@ -139,6 +145,8 @@
         </div>
         {% endfor %}
     </div>
+
+
     {% endblock %}
 
 
