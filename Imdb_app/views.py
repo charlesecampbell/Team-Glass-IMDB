@@ -119,9 +119,9 @@ def search_details_view(request):
 
     search_form = SearchForm()
     context.update({
-            'search_form': search_form,
-            'movie_info': movie_info,
-        })
+        'search_form': search_form,
+        'movie_info': movie_info,
+    })
     return render(request, 'search_details.html', context)
 
 
@@ -250,9 +250,10 @@ def login_view(request):
     return render(request, 'login.html', context)
 
 
-def logout_view(request):
-    logout(request)
-    return redirect(reverse('login'))
+class LogoutView(TemplateView):
+    def get(self, request):
+        logout(request)
+        return redirect(reverse('login'))
 
 
 def ActorsView(request):
@@ -473,5 +474,10 @@ def profile_update(request, applicationuser_id):
             user_form.save()
             return redirect(f'/user/{applicationuser_id}/')
     else:
-        user_form = UpdateUserForm()
+        user_form = UpdateUserForm(initial={
+            "display_name": request.user.display_name,
+            "email": request.user.email,
+            "bio": request.user.bio,
+            "user_image": request.user.user_image
+        })
     return render(request, 'update_user.html', {'userform': user_form})
