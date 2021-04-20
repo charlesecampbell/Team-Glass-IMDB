@@ -1,5 +1,37 @@
-<form method='POST' enctype="multipart/form-data">
-    {% csrf_token %}
-    {{userform.as_p}}
-    <button type='submit'>UPDATE</button>
-</form>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap');
+    body {
+        background-color: black;
+    }
+
+    #formHolder1 {
+        display: flex;
+        justify-content: center;
+        margin: 50px 0 0 0;
+    }
+
+    #formHolder2 {
+        background-color: rgb(124, 218, 189);
+        width: 400px;
+        border-radius: 25px;
+    }
+
+    #updateForm {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+</style>
+
+{% extends 'base_header2.html' %}
+{% block content %}
+<div id='formHolder1'>
+    <div id='formHolder2'>
+        <form method='POST' enctype="multipart/form-data" id='updateForm'>
+            {% csrf_token %}
+            {{userform.as_p}}
+            <button type='submit'>UPDATE</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

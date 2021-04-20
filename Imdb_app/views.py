@@ -191,7 +191,8 @@ def details_page(request, selection_id):
                 movie_title=reply_data['d'][0]['l'],
                 commenter=request.user,
                 movie_id=selection_id,
-                recommended=data['recommended']
+                recommended=data['recommended'],
+                user_image=f'/media/{request.user.user_image}'
             )
             # print(new_item)
     comments = Comment_model.objects.filter(movie_id=selection_id)
@@ -206,6 +207,7 @@ def details_page(request, selection_id):
             'encode_type': movie_trailer[1],
             'comments': comments,
         })
+    print(context)
     return render(request, 'details_page.html', context)
 
 
@@ -221,7 +223,7 @@ class UserProfileView(TemplateView):
         )
         context['comments'] = Comment_model.objects.all().filter(
             commenter=applicationuser_id
-        )
+        ).order_by('date_created').reverse()
         context['search'] = SearchForm()
         context['my_user'] = ApplicationUser.objects.all().filter(
             id=applicationuser_id

@@ -1,76 +1,208 @@
 <!DOCTYPE html>
 <html lang="en">
 <style>
-    #topHolder {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+    @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap');
+    
+    body {
+        background-color: black;
     }
-    #topFiveHolder {
+
+    #userPage {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        margin: 35px 0 35px 0;
+    }
+
+    #userDetails {
         display: flex;
         flex-direction: column;
         align-items: center;
         background-color: rgb(124, 218, 189);
-        margin: 25px 0 0 0;
-        width: 1100px;
+        width: 40%;
+        border-radius: 25px;
     }
-    #topFiveMovieHolder {
-        display: flex;
-    }
-    .movieInTopFive {
+
+    #personalDetails {
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
-        width: 0 15px 0 15px;
-        width: 200px;
-        overflow-wrap: break-word;
+        width: 80%;
     }
-    .moviePoster {
-        max-width: 150px;
+
+    #userName {
+        font-family: 'Oswald', sans-serif;
+        text-transform: capitalize;
     }
-    .movieTitle {
+
+    #userProfileImage {
+        width: 50%;
+        border-radius: 150px;
+    }
+
+    #userBio {
+        font-family: 'Oswald', sans-serif;
+        font-size: 20px;
         text-align: center;
-        margin: 0 0 0 0;
-        height: 60px;
-        font-size: 18px;
     }
-    .movieYear {
-        font-size: 18px;
+
+    #userBioTitle {
+        font-family: 'Oswald', sans-serif;
+        font-size: 30px;
+        margin: 20px 0 0 0;
     }
+
+    #seenMoviesHolder {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    #seenTopTitle {
+        font-family: 'Oswald', sans-serif;
+        font-size: 30px;
+        margin: 25px 0 0 0;
+    }
+
+    .singleMovieHolder {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: black;
+        margin: 5px 0 5px 0;
+        width: 80%;
+    }
+
+    .movieTitleUser {
+        font-family: 'Oswald', sans-serif;
+        color: rgb(124, 218, 189);
+    }
+
+    .moviePosterUser {
+        width: 150px;
+        -webkit-box-shadow: -6px 5px 7px 0px #FFFFFF79; 
+        box-shadow: -6px 5px 7px 0px #FFFFFF79;
+        border-radius: 10px;
+    }
+
+    .releaseYear {
+        font-family: 'Oswald', sans-serif;
+        color: rgb(124, 218, 189);
+    }
+
+    #wantMoviesHolder {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        margin: 50px 0 0 0;
+    }
+
+    #wantToSeeTopTitle {
+        font-family: 'Oswald', sans-serif;
+        font-size: 30px;
+        margin: 25px 0 0 0;
+    }
+
+    .singleWantToSee {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: black;
+        margin: 5px 0 5px 0;
+        width: 80%;
+    }
+
+    .seeTitle {
+        font-family: 'Oswald', sans-serif;
+        color: rgb(124, 218, 189);
+    }
+
+    .seePoster {
+        width: 150px;
+        -webkit-box-shadow: -6px 5px 7px 0px #ffffff79; 
+        box-shadow: -6px 5px 7px 0px #FFFFFF79;
+        border-radius: 10px;
+    }
+
+    .seeYear {
+        font-family: 'Oswald', sans-serif;
+        color: rgb(124, 218, 189);
+    }
+
     #comments {
         display: flex;
         flex-direction: column;
         align-items: center;
-        background-color: white;
-        height: 300px;
-        overflow: scroll;
-        max-width: 265px;
-        margin: 30px 0 30px 0;
+        background-color: black;
+        height: 855px;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        width: 80%;
+        margin: 60px 0 30px 0;
+        border-radius:  0 0 25px 25px;
     }
+
+    #comments::-webkit-scrollbar {
+        display: none;
+    }
+
     .commentHolder {
         display: flex;
-        flex-direction: column;
         align-items: center;
+        justify-content: space-around;
         background-color: rgb(124, 218, 189);
         margin: 5px 5px 5px 5px;
-        width: 250px;
+        width: 95%;
+        border-radius: 15px;
     }
+
     .cmPoster {
         max-width: 75px;
+        margin: 10px 0 10px 20px;
     }
+
     .cmTitle {
         text-align: center;
+        margin: 10 0 0 0;
+        font-family: 'Oswald', sans-serif;
     }
+
     .cmDateHolder {
         display: flex;
         justify-content: space-around;
+        margin: 0 0 10px 0;
+
     }
+
     .cmDate {
         margin: 0 0 0 5px;
+        font-family: 'Oswald', sans-serif;
     }
+
     .cmCommenter {
         margin: 0 5px 0 0;
+        font-family: 'Oswald', sans-serif;
+    }
+
+    .cmDetails {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 800px;
+        font-family: 'Oswald', sans-serif;
+    }
+
+    #cmHeader {
+        font-family: 'Oswald', sans-serif;
+        background-color: black;
+        color: rgb(124, 218, 189);
+        width: 100%;
+        text-align: center;
+        margin: 0 0 0 0;
+        position: sticky;
+        top: 0;
     }
 </style>
 <head>
@@ -79,53 +211,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Glass IMDb | User Profile</title>
 </head>
-<body>
+
     {% extends 'base_header2.html' %}
     {% block content %}
-    {% if header %}
-    <h1>{{header}}</h1>
-    {% endif %}
-    {% for item in my_user %}
-    <h1>{{item.display_name}}</h1>
-    {% if item.user_image %}
-        <img src={{item.user_image.url}} width=100>
-    {% endif %}
-    <h1>Bio: {{item.bio}}</h1>
-    <a href="/update/{{item.id}}"><button>UPDATE PROFILE</button></a>
-    {% endfor %}
-    <br>
-    <br>
-    <div id=topHolder>
-        <p><strong>Movies Seen</strong></p>
-        <div id=topFiveHolder>
-            {% for seen in haveseen %}
-            <p>{{seen.movie_title}}</p>
-            <a href="/details/{{seen.movie_id}}/"><img src={{seen.movie_img}} width="200" /></a>
-            <p>{{seen.movie_release}}</p>
-            {% endfor %}
-        </div>
-    </div>
-    <p><strong> Movies I Want To See </strong></p>
-    {% for item in wanttosee %}
-    <p>{{item.movie_title}}</p>
-    <a href="/details/{{item.movie_id}}/"><img src={{item.movie_img}} width="200" /></a>
-    <p>{{item.movie_release}}</p>
-    {% endfor %}
-    <div id='comments'>
-        <h2 id='cmHeader'>USER COMMENTS</h2>
-        {% for comment in comments %}
-        <div class='commentHolder'>
-            <h3 class="cmTitle">{{comment.movie_title}}</h3>
-            <a href="details/{{comment.movie_id}}/"><img src={{comment.movie_image}} class='cmPoster'
-                    alt={{comment.movie_title}} /></a>
-            <h4 class='cmComment'>{{comment.input_field}}</h4>
-            <div class='cmDateHolder'>
-                <h5 class='cmCommenter'>By: {{comment.commenter}}</h5>
-                <h5 class='cmDate'>{{comment.date_created}}</h5>
+    <div id='userPage'>
+        <div id='userDetails'>
+            <div id='personalDetails'>
+                {% for item in my_user %}
+                    <h1 id='userName'>{{item.display_name}}</h1>
+                    {% if item.user_image %}
+                        <img src={{item.user_image.url}} id='userProfileImage'/>
+                    {% endif %}
+                    <h2 id='userBioTitle'>About Me</h2>
+                    <h2 id='userBio'>{{item.bio}}</h2>
+                    <a href="/update/{{item.id}}"><button>UPDATE PROFILE</button></a>
+                {% endfor %}
+            </div>
+            <div id='seenMoviesHolder'>
+                <h2 id='seenTopTitle'>Movies I've Seen</h2>
+                {% for seen in haveseen %}
+                <div class='singleMovieHolder'>
+                    <h2 class='movieTitleUser'>{{seen.movie_title}}</h2>
+                    <a href="/details/{{seen.movie_id}}/"><img src={{seen.movie_img}} class='moviePosterUser'/></a>
+                    <h2 class='releaseYear'>{{seen.movie_release}}</h2>
+                </div>
+                {% endfor %}
+            </div>
+            <div id='wantMoviesHolder'>
+                <h2 id='wantToSeeTopTitle'> Movies I Want To See</h2>
+                {% for item in wanttosee %}
+                    <div class='singleWantToSee'>
+                        <h2 class='seeTitle'>{{item.movie_title}}</h2>
+                        <a href="/details/{{item.movie_id}}/"><img class='seePoster' src={{item.movie_img}}/></a>
+                        <h2 class='seeYear'>{{item.movie_release}}</h2>
+                    </div>
+                {% endfor %}
+            </div>
+            <div id='comments'>
+                <h2 id='cmHeader'>MY COMMENTS</h2>
+                {% for comment in comments %}
+                    <div class='commentHolder'>
+                        <a href="details/{{comment.movie_id}}/"><img src={{comment.movie_image}} class='cmPoster' alt={{comment.movie_title}}/></a>
+                        <div class="cmDetails">
+                            <h3 class="cmTitle">{{comment.movie_title}}</h3>
+                            <h4 class='cmComment'>{{comment.input_field}}</h4>
+                            <div class='cmDateHolder'>
+                                <h5 class='cmCommenter'>By: {{comment.commenter}}</h5>
+                                <h5 class='cmDate'>{{comment.date_created}}</h5>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
             </div>
         </div>
-        {% endfor %}
     </div>
     {% endblock %}
-</body>
-</html>
