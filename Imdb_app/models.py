@@ -22,6 +22,7 @@ class Comment_model(models.Model):
     movie_id = models.CharField(max_length=25)
     date_created = models.DateTimeField(default=timezone.now)
     recommended = models.BooleanField(null=True)
+    user_image = models.CharField(max_length=500, null=True)
 
 
 # Model for Liked Moviespy

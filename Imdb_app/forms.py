@@ -31,6 +31,10 @@ class SignupForm(forms.Form):
 
 # This is the comment form **Model Form
 class Comment_Form(forms.ModelForm):
+    input_field = forms.CharField(
+        label='', widget=forms.Textarea(
+            attrs={'placeholder': 'Comment or Review'}))
+
     class Meta:
         model = Comment_model
         fields = [
@@ -64,6 +68,16 @@ class LoginForm(forms.Form):
 
 
 class UpdateUserForm(forms.ModelForm):
+    display_name = forms.CharField(
+        label='', widget=forms.TextInput(
+            attrs={'placeholder': 'Display Name'}))
+    email = forms.EmailField(
+        label='', widget=forms.EmailInput(
+            attrs={'placeholder': 'Email'}))
+    bio = forms.CharField(label='', widget=forms.Textarea(
+        attrs={'placeholder': 'About Me'}))
+    user_image = forms.FileField(label='')
+
     class Meta:
         model = ApplicationUser
         fields = [

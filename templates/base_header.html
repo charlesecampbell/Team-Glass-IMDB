@@ -60,7 +60,7 @@
     {% if request.user.is_authenticated %}
     <div id='signupLogin'>
         {% if request.user.user_image %}
-            <img id='profilePic' src='{{request.user.user_image.url}}' alt='picture of {{request.user.username}}' />
+        <a href="/user/{{request.user.id}}/" ><img id='profilePic' src='{{request.user.user_image.url}}' alt='picture of {{request.user.username}}' /></a>
         {% endif %}
         <h2 id='username'><a href="/user/{{request.user.id}}/" id='user'>{{request.user.display_name}}'s Profile</a>  / </h2>
         <a href='/logout/'>

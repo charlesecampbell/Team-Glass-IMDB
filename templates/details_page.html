@@ -9,119 +9,324 @@
 </head>
 
 <style>
-    .movie {
-        width: 700px;
-        margin:0 217px;
+    @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap');
+    
+    body {
+        background-color: black;
     }
-    .vid{
-        position: absolute;
-        margin-left: 10px;
+
+    #movieHolder {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin: 50px 0 15px 0;
     }
-    .info{
-        margin-left:59%;
+
+    #movieData {
+        display: flex;
+        width: 70%;
+        background-color: rgb(124, 218, 189);
+        border-radius: 25px;
     }
-    .links{
-        margin-left:16%;
+
+    #posterHolder {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 30%;
     }
-    .comment{
-        margin-left:34%;
+
+    #dMoviePoster {
+        width: 300px;
+        border-radius: 15px;
     }
-    .comments{
-        width:500px;
-        border: 1px solid;
-        text-align:center;
-        margin:0 auto;
+
+    #movieDetails {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 70%;
     }
-    .comments h4{
-        text-decoration: underline;
-        margin-top: 0;
+
+    #dMovieTitle {
+        font-family: 'Oswald', sans-serif;
     }
-    .comment_header{
-        background-color: lightblue;
-        padding-top: 5px;
+
+    #mYear {
+        font-family: 'Oswald', sans-serif;
+        margin: 5px 0 10px 0;
     }
-    .inline_block_child{
-        display: inline-block;
-        width: 150px
+
+    #starring {
+        font-family: 'Oswald', sans-serif;
+        margin: 5px 0 5px 0;
     }
+    
+    .actor {
+        font-family: 'Oswald', sans-serif;
+    }
+
+    #starringActors {
+        display: flex;
+        width: 50%;
+        height: 50px;
+        justify-content: space-around;
+        align-items: center;
+        margin: 5px 0 10px 0;
+    }
+
+    #plot {
+        text-align: center;
+        font-family: 'Oswald', sans-serif;
+        width: 420px;
+    }
+
+    #userLinks {
+        display: flex;
+        width: 100%;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .links {
+        font-family: 'Oswald', sans-serif;
+        margin: 5px 0 10px 0;
+        color: black;
+    }
+
+    #related {
+        color: white;
+        font-family: 'Oswald', sans-serif;
+        text-align: center;
+        width: 150px;
+        margin: 19px 0 5px 0;
+    }
+
+    #allRelatedHolder {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+
+    #relatedHolder {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        width: 70%;
+    }
+
+    .singleRelated {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .relatedTitle {
+        color: white;
+        font-family: 'Oswald', sans-serif;
+        margin: 5px 0 5px 0;
+    }
+
+    .relatedPoster {
+        width: 100px;
+        border-radius: 5px;
+        -webkit-box-shadow: -6px 5px 7px 0px #ffffff79; 
+        box-shadow: -6px 5px 7px 0px #FFFFFF79;
+    }
+
+    #allCommentHolder {
+        display: flex;
+        width: 100%;
+        justify-content: center;
+        margin: 45px 0 50px 0;
+    }
+
+    #mainCommentHolder {
+        display: flex;
+        width: 70%;
+        background-color: rgb(124, 218, 189);
+        border-radius: 25px;
+        max-height: 360px;
+    }
+
+    #commentTitle{
+        font-family: 'Oswald', sans-serif;
+    }
+
+    #commentForm {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 0 15px 20px 15px;
+        width: 40%;
+    }
+
+    #commentHolder {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 60%;
+        overflow-y: scroll;
+    }
+
+    #commentHolder::-webkit-scrollbar {
+        display: none;
+    }
+
+    .singleComment {
+        display: flex;
+        width: 90%;
+        background-color: black;
+        margin: 5px 10px 5px 10px;
+        border-radius: 15px;
+    }
+
+    .commenter {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 30%;
+    }
+
+    .commenterName {
+        font-family: 'Oswald', sans-serif;
+        color: rgb(124, 218, 189);
+        margin-top: 15px 0 15px 0;
+    }
+
+    .profilePic2 {
+        width: 80px;
+        border-radius: 40px;
+        margin: 0 0 15px 0;
+    }
+
+    .commentDetails {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 70%;
+    }
+
+    .commentText {
+        font-family: 'Oswald', sans-serif;
+        color: rgb(124, 218, 189);
+        margin: 20px 0 10px 0;
+    }
+
+    .recommend {
+        font-family: 'Oswald', sans-serif;
+        color: rgb(124, 218, 189);
+        margin: 3px 0 3px 0;
+    }
+
+    .dateCreated {
+        font-family: 'Oswald', sans-serif;
+        color: rgb(124, 218, 189);
+        margin: 10px 0 20px 0;
+    }
+
+
+
     
 </style>
 {% extends 'base_header.html' %}
 {% load split_tag %}
 
 {% block content %}
-<div class='movie'>
-<h1 class='info'>Details Page</h1>
-<h3 class='info'>{{reply_data.d.0.l}}</h3>
-<img src={{reply_data.d.0.i.imageUrl}} width="500">
-{% if trailer_link and encode_type %}
-    <video width="420" height="240" controls class="vid">
-        <source src={{trailer_link}} type={{encode_type}}>
-    </video>
-{% endif %}
-<h3 class="info">Year {{reply_data.d.0.y}}</h3>
-<h3 class="info">Actors</h3>
-{% with reply_data.d.0.s|split:"," as item %}
-    {% for actor in item %}
-            <p class="info">{{actor }}</p>
-    {% endfor %}
-{% endwith %}
-<h5>Plot</h5>
-<p>{{plot}}</p>
+<div id='movieHolder'>
+    <div id='movieData'>
+        <div id='posterHolder'>
+            <h2 id='dMovieTitle'>{{reply_data.d.0.l}}</h2>
+            <img id='dMoviePoster' src={{reply_data.d.0.i.imageUrl}} alt={{reply_data.d.0.l}} />
+            <h3 id="mYear">{{reply_data.d.0.y}}</h3>
+        </div>
+        <div id='movieDetails'>
+            {% if trailer_link and encode_type %}
+                <video width="420" height="240" controls class="vid">
+                    <source src={{trailer_link}} type={{encode_type}}>
+                </video>
+            {% endif %}
+            <h3 id="starring">Starring</h3>
+            <div id='starringActors'>
+                {% with reply_data.d.0.s|split:"," as item %}
+                    {% for actor in item %}
+                        <h2 class="actor">{{ actor }}</h2>
+                {% endfor %}
+            </div>
+            {% endwith %}
+            <h4 id='plot'>{{plot}}</h4>
+            <div id='userLinks'>
+                {% if request.user.is_authenticated %}
+                    {% if reply_data.liked_movie == 'yes' %}
+                        <h3 class='links'>You Like This Movie</h3>
+                    {% else %}
+                        <a class='links' href='/addtolikes/{{reply_data.q}}/'>Like</a>
+                    {% endif %}
+
+                    {% if reply_data.seen_movie == 'yes' %}
+                        <h3 class='links'>You've Seen This Movie</h3>
+                    {% else %}
+                        <a href='/addtoseen/{{reply_data.q}}/' class='links'><h3 class='links'></h3>I've Seen This</h3></a>
+                    {% endif %}
+
+                    {% if reply_data.want_to_see == 'no' and reply_data.seen_movie == 'no' %}
+                        <a href='/addtowantosee/{{reply_data.q}}/' class='links'>I Want To See This</a>
+                    {% endif %}
+            </div>
+        </div>
+    </div>
 </div>
-
-<br>
-{% if request.user.is_authenticated %}
-{% if reply_data.liked_movie == 'yes' %}
-<h3>You Like This Movie</h3>
-{% else %}
-<a class='links' href='/addtolikes/{{reply_data.q}}/'>Add to Liked Movies</a><br>
-{% endif %}
-
-{% if reply_data.seen_movie == 'yes' %}
-You've Seen This Movie
-{% else %}
-<a href='/addtoseen/{{reply_data.q}}/' class='links'>Add to Seen Movies</a><br>
-{% endif %}
-
-
-{% if reply_data.want_to_see == 'no' and reply_data.seen_movie == 'no' %}
-<a href='/addtowantosee/{{reply_data.q}}/' class='links'>Add to Want to See</a><br>
-{% endif %}
 
 <!-- Recommendation List -->
-<h3>Recommendation List</h3>
-<div class="parent">
-{% for item in recommendations %}
-    <div class="child inline_block_child">
-        <h5><a href="/details/{{item.q}}">{{item.d.0.l}}</a></h5>
-        <img src="{{item.d.0.i.imageUrl}}" width="100">
+<div id='allRelatedHolder'>
+    <h3 id='related'>More Like This</h3>
+    <div id="relatedHolder">
+        {% for item in recommendations %}
+            <div class="singleRelated">
+                <h5 class='relatedTitle'>{{item.d.0.l}}</h5>
+                <a href="/details/{{item.q}}"><img class='relatedPoster' src="{{item.d.0.i.imageUrl}}" /></a>
+            </div>
+        {% endfor %}
     </div>
-{% endfor %}
 </div>
-
-<hr>
-<h2 style="text-align:center">Comments</h2>
-<form method="post" action="" class="comment">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type='submit' value="submit"/>
-</form>
-{% endif %}
-
-{% for item in comments %}
-<div class="comments">
-<div class="comment_header">
-<h4>{{item.commenter}}</h4>
-{{item.date_created}}
+<!-- Comments -->
+<div id='allCommentHolder'>
+    <div id='mainCommentHolder'>
+        <div id='commentForm'>
+            <h2 id='commentTitle'>Comment</h2>
+            <form method="post" action="" id="commentForm">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type='submit' value="submit"/>
+            </form>
+        </div>
+        {% endif %}
+        <div id='commentHolder'>
+            {% for item in comments %}
+            <div class="singleComment">
+                <div class="commenter">
+                    <h3 class='commenterName'>{{item.commenter}}</h3>
+                    {% if request.user.user_image %}
+                        <img class='profilePic2' src='{{item.user_image}}' alt='picture of {{item.commenter}}' />
+                    {% endif %}
+                </div>
+                <div class="commentDetails">
+                    <h4 class='commentText'>{{item.input_field}}</h4>
+                        {% if item.recommended == True %}
+                            <h4 class='recommend'>{{item.commenter}} <strong><u>RECOMMENDS</u></strong> this title</h4>
+                        {% else %}
+                            <h4 class='recommend'>{{item.commenter}} <strong><u>DOES NOT RECCOMEND</u></strong> this title</h4>
+                        {% endif %}
+                            <h4 class='dateCreated'>{{item.date_created}}</h4>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
 </div>
-<!-- <p>{{item.movie_title}}</p> -->
-<p>{{item.input_field}}</p>
-{% if item.recommended == True %}
-<p>Recommended</p>
-{% else %}
-<p>Not Recommended</p>
-{% endif %}
-</div>
-{% endfor %}
 {% endblock %}
