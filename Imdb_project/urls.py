@@ -22,7 +22,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 from Imdb_app.views import SignupView, UserProfileView, add_to_likes
 from Imdb_app.views import profile_update
-from Imdb_app.views import SignupView, login_view, details_page
+from Imdb_app.views import SignupView, login_view, details_page, LogoutView
 from Imdb_app.views import want_to_see, movies_have_seen
 
 urlpatterns = [
@@ -34,7 +34,7 @@ urlpatterns = [
     path('searchresults/', views.search_details_view, name='search_details'),
     path('details/<str:selection_id>/', details_page, name='details'),
     path('login/', login_view, name='login'),
-    path('logout/', views.logout_view, name='logout'),
+    path('logout/', LogoutView.as_view(), name='logout'),
     path('actorspage/', views.ActorsView, name='actorspage'),
     path('addtolikes/<str:id>/', add_to_likes, name='add_to_likes'),
     path('addtoseen/<str:id>/', movies_have_seen, name='have_seen'),
