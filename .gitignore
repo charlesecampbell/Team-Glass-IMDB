@@ -131,6 +131,5 @@ dmypy.json
 #vscode
 .vscode
 
-
 # Media (user profile pics)
-.media
+/media

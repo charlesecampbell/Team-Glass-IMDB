@@ -247,7 +247,7 @@
         </div>
         <div id='movieDetails'>
             {% if trailer_link and encode_type %}
-                <video width="420" height="240" controls class="vid">
+                <video width="420" height="240" controls  autoplay muted class="vid">
                     <source src={{trailer_link}} type={{encode_type}}>
                 </video>
             {% endif %}
